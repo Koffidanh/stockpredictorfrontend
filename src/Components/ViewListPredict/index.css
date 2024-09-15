@@ -1,0 +1,11 @@
+.graphs {
+  margin: 0 0 10px 100px;
+  width: 100%;
+}
+
+.graph {
+  height: 200px;
+  margin: 10px;
+  background-color: #ddd;
+  width: 100%;
+}

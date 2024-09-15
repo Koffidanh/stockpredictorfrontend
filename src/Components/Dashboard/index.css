@@ -1,0 +1,19 @@
+.dashboard {
+  padding: 20px;
+}
+
+.content {
+  justify-content: space-between;
+}
+
+.search-and-graphs {
+  display: flex;
+  flex: 2;
+  margin-right: 20px;
+  width: 100%;
+}
+
+.stock-and-graphs {
+  flex: 3;
+  display: flex;
+}
