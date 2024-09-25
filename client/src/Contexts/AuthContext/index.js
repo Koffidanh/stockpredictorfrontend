@@ -61,49 +61,62 @@ export function AuthProvider({ children }) {
   //   checkVerified();
   // }, [currentUser]);
 
-  // async function signupWithGoogle() {
-  //   auth
-  //     .signInWithPopup(provider)
-  //     .then((result) => (result.additionalUserInfo.isNewUser ? result : false))
-  //     .then(async (result) => {
-  //       if (result) {
-  //         const newUser = {
-  //           userName: result.user.displayName,
-  //           profileImage: [],
-  //           uid: result.user.uid,
-  //           // isNewUser: true
-  //         };
+  // const signupWithGoogle = async () => {
+  //   // Your existing signup logic...
+  //   const result = await auth.signInWithPopup(provider);
 
-  //         console.log(newUser);
-  //         API.saveUser(newUser);
-  //         await setTimeout(() => navigate.push("/dashboard"), 3000);
-  //         // useGlobalContext.getCurrentUser(result.user.uid)
-  //       } else {
-  //         console.log("I'm Sorry, I'm afraid I can't do that.");
-  //       }
-  //     })
-  //     .then(() => dispatch({ type: "SET_LOGGED_IN", payload: true }));
-  //   // .then(() => setTimeout(() => history.push("/dashboard"), 3000))
-  //   // .then(() => useGlobalContext.getCurrentUser());
-  // }
+  //   if (result) {
+  //     const newUser = {
+  //       userName: result.user.displayName,
+  //       profileImage: [],
+  //       uid: result.user.uid,
+  //     };
+
+  //     console.log(newUser);
+  //     await API.saveUser(newUser);
+  //     // Directly use navigate
+  //     setTimeout(() => navigate("/dashboard"), 3000);
+  //   } else {
+  //     console.log("I'm Sorry, I'm afraid I can't do that.");
+  //   }
+  // };
 
   const signupWithGoogle = async () => {
-    // Your existing signup logic...
-    const result = await auth.signInWithPopup(provider);
+    try {
+      // Sign in with Google
+      const result = await auth.signInWithPopup(provider);
 
-    if (result) {
-      const newUser = {
-        userName: result.user.displayName,
-        profileImage: [],
-        uid: result.user.uid,
-      };
+      if (result) {
+        const newUser = {
+          userName: result.user.displayName,
+          profileImage: [],
+          uid: result.user.uid,
+        };
 
-      console.log(newUser);
-      await API.saveUser(newUser);
-      // Directly use navigate
-      setTimeout(() => navigate("/dashboard"), 3000);
-    } else {
-      console.log("I'm Sorry, I'm afraid I can't do that.");
+        console.log(newUser);
+
+        // Check if the user exists in the database
+        const existingUser = await API.getUser(newUser.uid); // Ensure this is awaited
+
+        console.log("existingUser.lenght: ", existingUser.data.length);
+
+        if (!existingUser || existingUser.data.length === 0) {
+          // User does not exist, save new user
+          await API.saveUser(newUser);
+          console.log("New user saved to the database:", newUser);
+          // Navigate to the dashboard after a short delay
+          setTimeout(() => navigate("/dashboard"), 3000);
+        } else {
+          // User exists, you may want to do something with existingUser
+          console.log("User already exists. Fetched user data:", existingUser);
+          // Navigate to the dashboard after a short delay
+          setTimeout(() => navigate("/dashboard"), 3000);
+        }
+      } else {
+        console.log("I'm Sorry, I'm afraid I can't do that.");
+      }
+    } catch (error) {
+      console.error("Error during signup with Google:", error);
     }
   };
 

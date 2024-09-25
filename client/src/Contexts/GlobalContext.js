@@ -9,8 +9,8 @@ import { useParams } from "react-router-dom";
 
 // initial state
 const initialState = {
-  // user: [{}],
-  // fetchingUser: true,
+  user: [{}],
+  fetchingUser: true,
   // posts: [],
   // fetchingPosts: true,
   // userFriend: [],
@@ -25,7 +25,7 @@ const initialState = {
   // inputs: [],
   // feedUid: [],
   // concatVideos: [],
-  // userProfileImage: [],
+  userProfileImage: [],
   // replyBoxUuid: "",
   // postDropdownOpen: false,
   // viewport: {
@@ -97,13 +97,13 @@ const globalReducer = (state, action) => {
     //     ...state,
     //     editUuid: action.payload,
     //   };
-    // case "RESET_USER":
-    //   return {
-    //     ...state,
-    //     user: null,
-    //     posts: [],
-    //     fetchingUser: false,
-    //   };
+    case "RESET_USER":
+      return {
+        ...state,
+        user: null,
+        // posts: [],
+        fetchingUser: false,
+      };
 
     // case "SET_FRIEND_DATA":
     //   return {
@@ -137,11 +137,11 @@ const globalReducer = (state, action) => {
     //     ...state,
     //     concatVideos: action.payload,
     //   };
-    // case "SET_PROFILE_IMAGE":
-    //   return {
-    //     ...state,
-    //     userProfileImage: action.payload,
-    //   };
+    case "SET_PROFILE_IMAGE":
+      return {
+        ...state,
+        userProfileImage: action.payload,
+      };
 
     // case "SET_REPLY_BOX_UUID":
     //   return {
@@ -177,14 +177,14 @@ export const GlobalProvider = (props) => {
   const { updatePhotoURL, currentUser, userName } = useAuth();
   // const { uid, displayName, photoURL } = currentUser;
 
-  // useEffect(() => {
-  //   if (!currentUser) {
-  //     return;
-  //   }
+  useEffect(() => {
+    if (!currentUser) {
+      return;
+    }
 
-  //   console.log("GET CURRENT USER");
-  //   setTimeout(() => getCurrentUser(currentUser.uid), 1500);
-  // }, [currentUser]);
+    console.log("GET CURRENT USER");
+    setTimeout(() => getCurrentUser(currentUser.uid), 1500);
+  }, [currentUser]);
 
   // useEffect(() => {
   //   console.log("feed state: " + state.feedUid);
@@ -203,69 +203,73 @@ export const GlobalProvider = (props) => {
   // }, []);
 
   // action: get current user
-  // const getCurrentUser = async (uid) => {
-  //   try {
-  //     const res = await axios.get("/api/users/" + uid);
+  const getCurrentUser = async (uid) => {
+    try {
+      const res = await axios.get("/api/users/" + uid);
 
-  //     if (res.data) {
-  //       const posts = await axios.get("/api/posts/" + uid);
+      if (res.data) {
+        dispatch({ type: "SET_USER", payload: res.data });
+      }
 
-  //       let userFriends = [];
-  //       for (let i = 0; i < res.data[0].friendUid.length; i++) {
-  //         const friend = await axios.get(
-  //           "/api/users/" + res.data[0].friendUid[i]
-  //         );
-  //         userFriends.push(friend.data);
-  //       }
+      // if (res.data) {
+      //   const posts = await axios.get("/api/posts/" + uid);
 
-  //       // let pendingFriends = [];
-  //       // for (let i = 0; i < res.data[0].pendingFriendUid.length; i++) {
-  //       //     const pendingFriend = await axios.get("/api/users/" + res.data[0].pendingFriendUid[i])
-  //       //     pendingFriends.push(pendingFriend.data)
+      //   let userFriends = [];
+      //   for (let i = 0; i < res.data[0].friendUid.length; i++) {
+      //     const friend = await axios.get(
+      //       "/api/users/" + res.data[0].friendUid[i]
+      //     );
+      //     userFriends.push(friend.data);
+      //   }
 
-  //       // }
+      //   // let pendingFriends = [];
+      //   // for (let i = 0; i < res.data[0].pendingFriendUid.length; i++) {
+      //   //     const pendingFriend = await axios.get("/api/users/" + res.data[0].pendingFriendUid[i])
+      //   //     pendingFriends.push(pendingFriend.data)
 
-  //       // let requestedFriends = [];
-  //       // for (let i = 0; i < res.data[0].requestFriendUid.length; i++) {
-  //       //     const requestedFriend = await axios.get("/api/users/" + res.data[0].requestFriendUid[i])
-  //       //     requestedFriends.push(requestedFriend.data)
+      //   // }
 
-  //       // }
+      //   // let requestedFriends = [];
+      //   // for (let i = 0; i < res.data[0].requestFriendUid.length; i++) {
+      //   //     const requestedFriend = await axios.get("/api/users/" + res.data[0].requestFriendUid[i])
+      //   //     requestedFriends.push(requestedFriend.data)
 
-  //       if (posts.data) {
-  //         dispatch({ type: "SET_USER", payload: res.data });
-  //         dispatch({ type: "SET_FEED_UID", payload: res.data[0].addToFeedUid });
-  //         dispatch({ type: "SET_FRIEND_DATA", payload: userFriends });
-  //         dispatch({
-  //           type: "SET_PENDING_FRIEND_DATA",
-  //           payload: res.data[0].pendingFriendUid,
-  //         });
-  //         dispatch({
-  //           type: "SET_REQUESTED_FRIEND_DATA",
-  //           payload: res.data[0].requestFriendUid,
-  //         });
-  //         dispatch({
-  //           type: "SET_PROFILE_IMAGE",
-  //           payload: res.data[0].profileImage,
-  //         });
-  //         dispatch({
-  //           type: "SET_POSTS",
-  //           payload: posts.data,
-  //         });
-  //       }
-  //     } else if (currentUser.uid) {
-  //       dispatch({
-  //         type: "SET_USER",
-  //         payload: { ...state.user, userName: userName, uid: currentUser.uid },
-  //       });
-  //     } else {
-  //       dispatch({ type: "RESET_USER" });
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //     dispatch({ type: "RESET_USER" });
-  //   }
-  // };
+      //   // }
+
+      //   if (posts.data) {
+      //     dispatch({ type: "SET_USER", payload: res.data });
+      //     dispatch({ type: "SET_FEED_UID", payload: res.data[0].addToFeedUid });
+      //     dispatch({ type: "SET_FRIEND_DATA", payload: userFriends });
+      //     dispatch({
+      //       type: "SET_PENDING_FRIEND_DATA",
+      //       payload: res.data[0].pendingFriendUid,
+      //     });
+      //     dispatch({
+      //       type: "SET_REQUESTED_FRIEND_DATA",
+      //       payload: res.data[0].requestFriendUid,
+      //     });
+      //     dispatch({
+      //       type: "SET_PROFILE_IMAGE",
+      //       payload: res.data[0].profileImage,
+      //     });
+      //     dispatch({
+      //       type: "SET_POSTS",
+      //       payload: posts.data,
+      //     });
+      //   }
+      // } else if (currentUser.uid) {
+      //   dispatch({
+      //     type: "SET_USER",
+      //     payload: { ...state.user, userName: userName, uid: currentUser.uid },
+      //   });
+      // } else {
+      //   dispatch({ type: "RESET_USER" });
+      // }
+    } catch (err) {
+      console.log(err);
+      dispatch({ type: "RESET_USER" });
+    }
+  };
 
   // <------------------------------------------>
 
