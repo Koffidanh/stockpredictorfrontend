@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../../Contexts/AuthContent/index";
+import { useAuth } from "../../Contexts/AuthContext/index";
 import "./index.css";
 
 export default function Loggin() {
@@ -20,10 +20,22 @@ export default function Loggin() {
     }
   };
 
+  // const handleGoogleLogin = async () => {
+  //   try {
+  //     await signupWithGoogle();
+  //     navigate("/dashboard");
+  //   } catch (error) {
+  //     console.error("Error during Google login:", error);
+  //   }
+  // };
+
   const handleGoogleLogin = async () => {
     try {
-      await signupWithGoogle();
-      navigate("/dashboard");
+      console.log("Attempting Google login...");
+      const result = await signupWithGoogle();
+
+      console.log("Google login result:", result); // Log the result
+      // navigate("/dashboard");
     } catch (error) {
       console.error("Error during Google login:", error);
     }

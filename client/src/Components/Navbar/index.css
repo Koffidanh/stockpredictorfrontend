@@ -17,7 +17,11 @@
 }
 
 .navbar-user {
-  margin-right: 5rem;
+  display: inline-block; /* Ensure the content is on the same line */
+  margin-right: 2rem; /* Adjust margin for spacing */
+  margin-left: 1rem; /* Adjust margin for spacing */
+  font-size: 1rem; /* Optional: adjust font size */
+  white-space: nowrap; /* Prevent text from wrapping to the next line */
 }
 
 .dropdown {
@@ -57,4 +61,28 @@
 
 .dropdown-menu li:hover {
   background-color: #f0f0f0;
+}
+
+.profileImage {
+  width: 100%; /* Adjust the width of the container if needed */
+  height: 50%; /* Adjust the height of the container */
+  display: flex; /* Flexbox to center the content */
+  justify-content: center; /* Horizontally center the image */
+  align-items: center; /* Vertically center the image */
+  cursor: pointer; /* Makes the image clickable */
+}
+
+.profileImage img {
+  width: 50px; /* Adjust the width of the image */
+  height: 50px; /* Adjust the height of the image */
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+  /* border-radius: 50%;  */
+}
+
+.profileImage i {
+  font-size: 50px; /* Adjust the icon size */
+}
+
+.profileImage:hover {
+  opacity: 0.8; /* Slightly darkens the image on hover */
 }
