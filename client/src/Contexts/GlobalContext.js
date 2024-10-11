@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuth, AuthProvider } from "./AuthContext";
 // import { post } from "superagent";
 import { useParams } from "react-router-dom";
+import { API } from "../utils/API";
 
 // import { ParamsContextProvider } from "../Contexts/ParamsContext";
 // import { useParamsId } from "../Contexts/ParamsContext";
@@ -11,7 +12,9 @@ import { useParams } from "react-router-dom";
 const initialState = {
   user: [{}],
   fetchingUser: true,
-  // posts: [],
+  isOpenPhotoUpdated: false,
+  listOfStocksName: [],
+  listOfChoosenStocksObjects: [{}],
   // fetchingPosts: true,
   // userFriend: [],
   // userFriendUid: [],
@@ -40,12 +43,18 @@ const initialState = {
 // reducer
 const globalReducer = (state, action) => {
   switch (action.type) {
-    // case "SET_USER":
-    //   return {
-    //     ...state,
-    //     user: action.payload,
-    //     fetchingUser: false,
-    //   };
+    case "SET_USER":
+      return {
+        ...state,
+        user: action.payload,
+        fetchingUser: false,
+      };
+
+    case "SET_LIST_CHOOSEN_STOCK":
+      return {
+        ...state,
+        listOfChoosenStocksObjects: action.payload,
+      };
     // case "SET_FEED_UID":
     //   return {
     //     ...state,
@@ -140,7 +149,25 @@ const globalReducer = (state, action) => {
     case "SET_PROFILE_IMAGE":
       return {
         ...state,
-        userProfileImage: action.payload,
+        userProfileImage: [action.payload],
+      };
+
+    case "SET_PROFILE_USERNAME":
+      return {
+        ...state,
+        userProfileUserName: [action.payload],
+      };
+
+    case "SET_ISOPENPHOTOUPDATED":
+      return {
+        ...state,
+        isOpenPhotoUpdated: [action.payload],
+      };
+
+    case "SET_STOCK_NAME":
+      return {
+        ...state,
+        listOfStocksName: [action.payload],
       };
 
     // case "SET_REPLY_BOX_UUID":
@@ -184,6 +211,7 @@ export const GlobalProvider = (props) => {
 
     console.log("GET CURRENT USER");
     setTimeout(() => getCurrentUser(currentUser.uid), 1500);
+    // setTimeout(() => getStock(), 1500);
   }, [currentUser]);
 
   // useEffect(() => {
@@ -196,19 +224,57 @@ export const GlobalProvider = (props) => {
   //   console.log("all ffriends: " + JSON.stringify(state.userFriend));
   // }, [state.requestedFriend]);
 
-  // useEffect(() => {
-
-  //     console.log("feed state initial: " + JSON.stringify(state.user[0].addToFeedUid))
-
-  // }, []);
+  useEffect(() => {
+    console.log(
+      "listOfChoosenStocksObjects in global: " +
+        JSON.stringify(state.listOfChoosenStocksObjects)
+    );
+  }, [state.listOfChoosenStocksObjects]);
 
   // action: get current user
   const getCurrentUser = async (uid) => {
     try {
       const res = await axios.get("/api/users/" + uid);
 
-      if (res.data) {
+      if (res.data && res.data[0]) {
         dispatch({ type: "SET_USER", payload: res.data });
+        console.log("ListOfStockInList: ", res.data[0].listOfStocks);
+        // let listOfChoosenStocks = [];
+        // for (let i = 0; i < res.data[0].listOfStocks.length; i++) {
+        //   const stock = await axios.get(
+        //     "/api/stock_predictions/" + res.data[0].listOfStocks[i]
+        //   );
+        //   dispatch({ type: "listOfChoosenStocksObjects", payload: res.data });
+        // }
+      } else {
+        console.error(
+          "No data returned from API or the response format is invalid."
+        );
+      }
+
+      if (
+        res.data &&
+        res.data[0] &&
+        res.data[0].listOfStocks &&
+        res.data[0].listOfStocks.length > 0
+      ) {
+        for (let i = 0; i < res.data[0].listOfStocks.length; i++) {
+          const stockTicker = res.data[0].listOfStocks[i]; // Use the actual ticker here
+          try {
+            const response = await axios.get(`/api/stocks/${stockTicker}`);
+            console.log("request from Global: ", response.data);
+            dispatch({
+              type: "listOfChoosenStocksObjects",
+              payload: response.data,
+            });
+          } catch (error) {
+            console.error("Error fetching stock data:", error);
+          }
+        }
+      } else {
+        console.error(
+          "No data returned from API or the response format is invalid."
+        );
       }
 
       // if (res.data) {
@@ -273,12 +339,26 @@ export const GlobalProvider = (props) => {
 
   // <------------------------------------------>
 
-  // const updateProfileImage = (imageUrl) => {
-  //   dispatch({
-  //     type: "SET_PROFILE_IMAGE",
-  //     payload: imageUrl,
-  //   });
-  // };
+  const updateProfileImage = (imageUrl) => {
+    dispatch({
+      type: "SET_PROFILE_IMAGE",
+      payload: imageUrl,
+    });
+  };
+
+  const setUpdateProfileImage = (input) => {
+    dispatch({
+      type: "SET_ISOPENPHOTOUPDATED",
+      payload: input,
+    });
+  };
+
+  const appendToList = (name) => {
+    dispatch({
+      type: "SET_STOCK_NAME",
+      payload: [...state.listOfStocksName, name],
+    });
+  };
 
   // const addPost = (post) => {
   //   dispatch({
@@ -637,8 +717,8 @@ export const GlobalProvider = (props) => {
   // };
 
   const value = {
-    // ...state,
-    // getCurrentUser,
+    ...state,
+    getCurrentUser,
     // setConcatImages,
     // setSourceImages,
     // setInputs,
@@ -660,7 +740,9 @@ export const GlobalProvider = (props) => {
     // appendToRequested,
     // deleteFromRequested,
     // setConcatVideos,
-    // updateProfileImage,
+    updateProfileImage,
+    setUpdateProfileImage,
+    appendToList,
     // updateReplyBoxUuid,
     // setPostDropdownOpen,
     // setViewport,

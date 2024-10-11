@@ -3,8 +3,20 @@ import "./index.css";
 
 const ListStock = () => {
   const stocks = [
-    { name: "AMZ", realPrice: "3000", predictedPrice: "3200" },
-    { name: "APPL", realPrice: "3000", predictedPrice: "3200" },
+    {
+      name: "AMZ",
+      realPrice: "3000",
+      predictedPrice: "3200",
+      High: "3000",
+      Low: "2500",
+    },
+    {
+      name: "APPL",
+      realPrice: "3000",
+      predictedPrice: "3200",
+      High: "3000",
+      Low: "2500",
+    },
   ];
 
   // Store dropdown state for each stock
@@ -33,6 +45,8 @@ const ListStock = () => {
             <div>{stock.name}</div>
             <div>Real: {stock.realPrice}</div>
             <div>Predicted: {stock.predictedPrice}</div>
+            <div>High: {stock.High}</div>
+            <div>Low: {stock.Low}</div>
           </a>
 
           <div className="stock-menu">

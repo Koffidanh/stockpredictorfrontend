@@ -5,7 +5,8 @@ export const API = {
 
   getUser: (uid) => axios.get("api/users/" + uid),
 
-  //   getUserByName: (userName) => axios.get("api/users/" + userName),
+  // getStockByName: (ticker) => axios.get("api/stockPredictions/" + ticker),
+  getStockByName: (ticker) => axios.get("api/stocks/" + ticker),
 
   //   getUserByParam: (uid) => axios.get("api/users/" + uid),
 
@@ -20,6 +21,14 @@ export const API = {
   //   removeUser: (uid) => axios.delete("api/users/", uid),
 
   //   removePost: (id) => axios.delete("api/posts/", id),
+
+  uploadPhoto: (formData) => {
+    return axios.post("/upload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  },
 };
 
 // import axios from "axios";
