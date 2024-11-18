@@ -1,6 +1,26 @@
 .search-past-graph {
   width: 100%;
-  margin: 20px 0 20px 20px;
+  margin: 10px -20px 20px -5px;
   background-color: #ddd;
   height: 280px;
+}
+
+/* .graphs {
+  margin: 0 0 10px 100px;
+  width: 100%;
+} */
+
+.actualGraphTittle {
+  display: flex;
+}
+.actualPriceTittle {
+  margin: 20px 0 0 30px;
+  border: 2px solid violet;
+  padding: 10px;
+}
+
+.predictedPriceTittle {
+  margin: 20px 0 0 100px;
+  border: 2px solid yellow;
+  padding: 10px;
 }

@@ -6,8 +6,5 @@ const userRoutes = require("./users");
 // Post routes
 router.use("/users", userRoutes);
 router.use("/stocks", stockRoutes);
-// router.use("/search", userRoutes);
-//router.use("/users", updatePendingRoutes);
-// router.use("/dashboard", postRoutes);
 
 module.exports = router;

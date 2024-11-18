@@ -41,9 +41,7 @@ router
   .delete(usersController.remove)
   // .put(usersController.updatePending)
   .get(usersController.findByName);
-// .get(usersController.exists);
 
-// Matches with "/api/users/:id"
 router
   .route("/:id")
   // .get(usersController.findByName)

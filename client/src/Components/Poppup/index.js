@@ -1,72 +1,9 @@
-// export default ListStock;
-
 import React, { useState } from "react";
 import { useGlobalContext } from "../../Contexts/GlobalContext";
 import ViewListPredict from "../ViewListPredict"; // Import the graph component
-import { useAuth } from "../../Contexts/AuthContext/index"; // Import useAuth
 import "./index.css";
-import { API } from "../../utils/API";
 
-const ListStock = () => {
-  const [error, setError] = useState("");
-  const { updatePhotoURL, currentUser } = useAuth();
-  const {
-    listOfChoosenStocksObjects,
-    updateStockSelected,
-    selectedStock,
-    deleteStockData,
-  } = useGlobalContext();
-
-  // Store dropdown state for each stock
-  const [openDropdownIndex, setOpenDropdownIndex] = useState(null);
-
-  const toggleDropdown = (index) => {
-    // Toggle the dropdown for the specific stock
-    setOpenDropdownIndex(openDropdownIndex === index ? null : index);
-  };
-
-  const handleStockClick = (stock) => {
-    // Handle the stock click event and set selected stock
-    updateStockSelected(stock); // Set the selected stock to display its graph
-  };
-
-  const getHighLowPrices = (actualPrices) => {
-    const prices = actualPrices.map((price) =>
-      parseFloat(price.$numberDecimal)
-    );
-    const high = Math.max(...prices);
-    const low = Math.min(...prices);
-    return { high, low };
-  };
-
-  const deleteStock = async (selectedStock) => {
-    if (!selectedStock) {
-      setError("Please select a stock.");
-      return;
-    }
-
-    try {
-      // Remove the stock from the local state
-      deleteStockData(selectedStock);
-
-      // Call the backend API to remove the stock from the database
-      const response = await API.updateUser({
-        deleteStock: true,
-        uid: currentUser.uid,
-        stockTicker: selectedStock.ticker,
-      });
-
-      if (response.status === 200) {
-        console.log("Stock removed from user list in database:", selectedStock);
-      } else {
-        setError("Failed to remove stock from the database.");
-      }
-    } catch (err) {
-      console.error("Error updating user data:", err);
-      setError("Failed to delete stock.");
-    }
-  };
-
+const Poppup = () => {
   return (
     <div className="stock-list">
       <h3>List of Selected Stocks</h3>
@@ -125,9 +62,7 @@ const ListStock = () => {
                 {openDropdownIndex === index && (
                   <ul className="dropdown-menu">
                     <li>
-                      <a href="#delete" onClick={() => deleteStock(stock)}>
-                        Delete
-                      </a>
+                      <a href="#delete">Delete</a>
                     </li>
                     <li>
                       <a href="#settings">Update</a>
@@ -146,4 +81,4 @@ const ListStock = () => {
   );
 };
 
-export default ListStock;
+export default Poppup;

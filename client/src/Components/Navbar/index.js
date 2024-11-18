@@ -51,13 +51,13 @@ const Navbar = () => {
   // }, [isOpenPhotoUpdated, setUpdateProfileImage]);
   // console.log("usernameNavbar: ", user[0].userName);
 
-  useEffect(() => {
-    if (user) {
-      console.log("User global updated in Navbar: ", JSON.stringify(user));
-    } else {
-      console.log("User is undefined in Navbar");
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     console.log("User global updated in Navbar: ", JSON.stringify(user));
+  //   } else {
+  //     console.log("User is undefined in Navbar");
+  //   }
+  // }, [user]);
 
   return (
     <>
