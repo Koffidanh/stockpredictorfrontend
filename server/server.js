@@ -53,49 +53,6 @@ mongoose
   .then(() => console.log("MongoDB connected!"))
   .catch((err) => console.error("MongoDB connection error:", err));
 
-// Storage for image
-// MongoDB URI
-// const mongoURI = "mongodb://localhost:27017/stockPredictordb";
-// const storage = new GridFsStorage({
-//   url: mongoURI,
-//   file: (req, file) => {
-//     return {
-//       filename: file.originalname,
-//       bucketName: "uploads", // Collection name
-//     };
-//   },
-// });
-
-// const upload = multer({ storage });
-
-// app.post("/upload", upload.single("file"), (req, res) => {
-//   try {
-//     if (!req.file) {
-//       return res.status(400).send("No file uploaded.");
-//     }
-//     res.status(201).send({ fileUrl: req.file.id });
-//   } catch (error) {
-//     console.error("Upload error:", error);
-//     res.status(500).send("Internal Server Error");
-//   }
-// });
-
 app.listen(PORT, function () {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });
-
-// const express = require("express");
-// const usersRoutes = require("./routes/api/users");
-
-// const app = express();
-
-// // Middleware
-// app.use(express.json());
-
-// // Routes
-// app.use("/api", usersRoutes);
-
-// const PORT = process.env.PORT || 3001;
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
