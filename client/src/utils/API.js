@@ -1,21 +1,57 @@
 import axios from "axios";
 
+// export const API = {
+//   saveUser: (user) => axios.post("api/users", user),
+
+//   getUser: (uid) => axios.get("api/users/" + uid),
+
+//   getStockByName: (ticker) => axios.get("api/stocks/" + ticker),
+
+//   updateUser: (uid) => axios.put("api/users/", uid),
+
+//   // removeStock: (uid) => axios.put("api/users/", uid),
+
+//   uploadPhoto: (formData) => {
+//     return axios.post("/upload", formData, {
+//       headers: {
+//         "Content-Type": "multipart/form-data",
+//       },
+//     });
+//   },
+// };
+
 export const API = {
-  saveUser: (user) => axios.post("api/users", user),
+  saveUser: (user) =>
+    axios.post(
+      "https://stockpredictorfrontend-prd-8d9c2d7ae6cf.herokuapp.com/api/users",
+      user
+    ),
 
-  getUser: (uid) => axios.get("api/users/" + uid),
+  getUser: (uid) =>
+    axios.get(
+      "ahttps://stockpredictorfrontend-prd-8d9c2d7ae6cf.herokuapp.com/api/users/" +
+        uid
+    ),
 
-  getStockByName: (ticker) => axios.get("api/stocks/" + ticker),
+  getStockByName: (ticker) =>
+    axios.get(
+      "https://stockpredictorfrontend-prd-8d9c2d7ae6cf.herokuapp.com/api/stocks/" +
+        ticker
+    ),
 
-  updateUser: (uid) => axios.put("api/users/", uid),
+  updateUser: (uid) =>
+    axios.put(
+      "https://stockpredictorfrontend-prd-8d9c2d7ae6cf.herokuapp.com/api/users/",
+      uid
+    ),
 
   // removeStock: (uid) => axios.put("api/users/", uid),
 
-  uploadPhoto: (formData) => {
-    return axios.post("/upload", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-  },
+  // uploadPhoto: (formData) => {
+  //   return axios.post("https://stockpredictorfrontend-prd-8d9c2d7ae6cf.herokuapp.com//upload", formData, {
+  //     headers: {
+  //       "Content-Type": "multipart/form-data",
+  //     },
+  //   });
+  // },
 };
