@@ -45,7 +45,7 @@ export const API = {
       uid
     ),
 
-  // removeStock: (uid) => axios.put("api/users/", uid),
+  removeStock: (uid) => axios.put("api/users/", uid),
 
   // uploadPhoto: (formData) => {
   //   return axios.post("https://stockpredictorfrontend-prd-8d9c2d7ae6cf.herokuapp.com//upload", formData, {
