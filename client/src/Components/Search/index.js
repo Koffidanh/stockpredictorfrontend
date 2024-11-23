@@ -302,6 +302,7 @@ const Search = () => {
               { ticker: "NVDA", name: "NVIDIA" },
               { ticker: "QQQ", name: "INVESCO QQQ TRUST" },
               { ticker: "TSLA", name: "TESLA" },
+              { ticker: "BTC-BTC", name: "BITCOIN" },
             ]
               .sort((a, b) => a.name.localeCompare(b.name)) // Sorting alphabetically by name
               .map((stock) => (

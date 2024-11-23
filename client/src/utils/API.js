@@ -23,25 +23,25 @@ import axios from "axios";
 export const API = {
   saveUser: (user) =>
     axios.post(
-      "https://stockpredictorfrontend-prd-8d9c2d7ae6cf.herokuapp.com/api/users",
+      "https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/users",
       user
     ),
 
   getUser: (uid) =>
     axios.get(
-      "ahttps://stockpredictorfrontend-prd-8d9c2d7ae6cf.herokuapp.com/api/users/" +
+      "https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/users/" +
         uid
     ),
 
   getStockByName: (ticker) =>
     axios.get(
-      "https://stockpredictorfrontend-prd-8d9c2d7ae6cf.herokuapp.com/api/stocks/" +
+      "https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/stocks/" +
         ticker
     ),
 
   updateUser: (uid) =>
     axios.put(
-      "https://stockpredictorfrontend-prd-8d9c2d7ae6cf.herokuapp.com/api/users/",
+      "https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/users/",
       uid
     ),
 
