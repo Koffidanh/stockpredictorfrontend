@@ -1,0 +1,52 @@
+/* index.css
+#loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.heartbeat {
+  width: 200px;
+  height: 50px;
+  background: linear-gradient(to right, transparent, #ff4d4d, transparent);
+  position: relative;
+  overflow: hidden;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+.heartbeat::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 100%;
+  background-color: #ff4d4d;
+  animation: move 1.5s infinite linear;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  25% {
+    transform: scaleY(2);
+  }
+  50% {
+    transform: scaleY(0.5);
+  }
+  75% {
+    transform: scaleY(1.5);
+  }
+}
+
+@keyframes move {
+  0% {
+    left: 0;
+  }
+  100% {
+    left: 100%;
+  }
+} */

@@ -7,6 +7,7 @@ import firebase from "firebase/compat/app";
 import { API } from "../../utils/API";
 // import { getAuth, deleteUser } from "firebase/compat/app";
 import { useGlobalContext } from "../GlobalContext";
+import Loading from "../../Components/Loading";
 
 const initialState = {
   loggedIn: false,
@@ -49,41 +50,10 @@ export function AuthProvider({ children }) {
 
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const checkVerified = async () => {
-  //     if (currentUser && currentUser.emailVerified) {
-  //       history.push("/dashboard");
-  //     } else {
-  //       auth.signOut();
-  //     }
-  //   };
-
-  //   checkVerified();
-  // }, [currentUser]);
-
-  // const signupWithGoogle = async () => {
-  //   // Your existing signup logic...
-  //   const result = await auth.signInWithPopup(provider);
-
-  //   if (result) {
-  //     const newUser = {
-  //       userName: result.user.displayName,
-  //       profileImage: [],
-  //       uid: result.user.uid,
-  //     };
-
-  //     console.log(newUser);
-  //     await API.saveUser(newUser);
-  //     // Directly use navigate
-  //     setTimeout(() => navigate("/dashboard"), 3000);
-  //   } else {
-  //     console.log("I'm Sorry, I'm afraid I can't do that.");
-  //   }
-  // };
-
   const signupWithGoogle = async () => {
     try {
-      // Sign in with Google
+      setLoading(true); // Show loading immediately
+
       const result = await auth.signInWithPopup(provider);
 
       if (result) {
@@ -95,28 +65,28 @@ export function AuthProvider({ children }) {
 
         console.log(newUser);
 
-        // Check if the user exists in the database
-        const existingUser = await API.getUser(newUser.uid); // Ensure this is awaited
-
-        console.log("existingUser.lenght: ", existingUser.data.length);
+        const existingUser = await API.getUser(newUser.uid);
+        console.log("existingUser.length: ", existingUser.data.length);
 
         if (!existingUser || existingUser.data.length === 0) {
-          // User does not exist, save new user
           await API.saveUser(newUser);
           console.log("New user saved to the database:", newUser);
-          // Navigate to the dashboard after a short delay
-          setTimeout(() => navigate("/dashboard"), 3000);
         } else {
-          // User exists, you may want to do something with existingUser
           console.log("User already exists. Fetched user data:", existingUser);
-          // Navigate to the dashboard after a short delay
-          setTimeout(() => navigate("/dashboard"), 3000);
         }
+
+        // Simulate a delay before navigating to the dashboard
+        setTimeout(() => {
+          setLoading(false);
+          navigate("/dashboard");
+        }, 3000);
       } else {
         console.log("I'm Sorry, I'm afraid I can't do that.");
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error during signup with Google:", error);
+      setLoading(false);
     }
   };
 
@@ -261,7 +231,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {loading ? <Loading /> : children}
     </AuthContext.Provider>
   );
 }

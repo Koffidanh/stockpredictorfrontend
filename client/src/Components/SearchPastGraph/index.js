@@ -34,31 +34,71 @@ const SearchPastGraph = () => {
   };
 
   // Ensure stockData is defined and has the necessary properties
-  const actualPrices =
-    stockData[0]?.actual?.map((price, index) => ({
-      index: index,
-      realPrice: parseFloat(price["$numberDecimal"]),
-    })) || [];
+  // const actualPrices =
+  //   stockData[0]?.actual?.map((price, index) => ({
+  //     index: index,
+  //     realPrice: parseFloat(price["$numberDecimal"]),
+  //   })) || [];
 
-  const predictedPrices =
-    stockData[0]?.predictions?.map((price, index) => ({
-      index: index,
-      realPrice: parseFloat(price["$numberDecimal"]),
-    })) || [];
+  // const actualPrices =
+  //   stockData.map((entry, index) => ({
+  //     index: index,
+  //     realPrice: entry.actual !== undefined ? parseFloat(entry.actual) : null, // Directly access the price
+  //   })) || [];
+
+  // Assuming you have a way to know if the data is filtered (e.g., filtered stockData)
+  const isDataFiltered = stockData.some((entry) => entry.date); // Example check if filtering happened based on date or similar
+
+  // Use appropriate logic for mapping actualPrices based on whether data is filtered
+  const actualPrices = isDataFiltered
+    ? stockData.map((entry, index) => ({
+        index: index,
+        realPrice: entry.actual !== undefined ? parseFloat(entry.actual) : null,
+      }))
+    : stockData[0]?.actual?.map((price, index) => ({
+        index: index,
+        realPrice: parseFloat(price["$numberDecimal"]),
+      })) || [];
+
+  console.log("stockData in searchpastgraph: ", stockData);
+
+  // const predictedPrices =
+  //   stockData[0]?.predictions?.map((price, index) => ({
+  //     index: index,
+  //     realPrice: parseFloat(price["$numberDecimal"]),
+  //   })) || [];
+
+  console.log("stockDatasssss: ", stockData);
+  const predictedPrices = isDataFiltered
+    ? stockData.map((entry, index) => ({
+        index: index,
+        realPrice:
+          entry.predicted !== undefined ? parseFloat(entry.predicted) : null, // Handle filtered data
+      }))
+    : stockData[0]?.predictions?.map((price, index) => ({
+        index: index,
+        realPrice: parseFloat(price["$numberDecimal"]),
+      })) || []; // Handle unfiltered data
+
+  console.log("predictedPrices: ", predictedPrices);
 
   // Check if the last elements exist before trying to access realPrice
   const lastActualPrice =
     actualPrices.length > 0
       ? actualPrices[actualPrices.length - 1].realPrice
       : null;
+
+  console.log("predictedPricessssss: ", predictedPrices);
   const lastPredictedPrice =
     predictedPrices.length > 0
       ? predictedPrices[predictedPrices.length - 1].realPrice
       : null;
 
+  console.log("lastPredictedPrice: ", lastPredictedPrice);
+
   // Calculate percentage difference and determine box colors
   let actualBoxColor = "violet";
-  let predictedBoxColor = "yellow";
+  let predictedBoxColor = "violet";
 
   if (lastActualPrice !== null && lastPredictedPrice !== null) {
     const percentageDifference =
@@ -66,10 +106,13 @@ const SearchPastGraph = () => {
 
     if (percentageDifference > 10) {
       predictedBoxColor = "green";
-      actualBoxColor = "violet";
+      actualBoxColor = "green";
     } else if (percentageDifference < -10) {
+      predictedBoxColor = "red";
+      actualBoxColor = "red";
+    } else if (percentageDifference == 0) {
       predictedBoxColor = "yellow";
-      actualBoxColor = "violet";
+      actualBoxColor = "yellow";
     }
   }
 
@@ -80,14 +123,15 @@ const SearchPastGraph = () => {
         <div
           className="actualPriceTittle"
           style={{
-            border: `2px solid ${actualBoxColor}`,
-            padding: "10px",
+            border: `7px solid ${actualBoxColor}`,
+            padding: "5px",
             marginBottom: "10px",
+            marginTop: "10px",
           }}
           onMouseEnter={(e) =>
             handleMouseEnter(
               e,
-              "The actual price box color indicates its comparison to the predicted price."
+              "The actual price box color indicates its comparison to the predicted price. Green  to buy. Red Not to buy. Yellow with caution."
             )
           }
           onMouseMove={handleMouseMove}
@@ -99,8 +143,10 @@ const SearchPastGraph = () => {
         <div
           className="predictedPriceTittle"
           style={{
-            border: `2px solid ${predictedBoxColor}`,
-            padding: "10px",
+            border: `7px solid ${predictedBoxColor}`,
+            padding: "5px",
+            marginBottom: "10px",
+            marginTop: "10px",
           }}
           onMouseEnter={(e) =>
             handleMouseEnter(

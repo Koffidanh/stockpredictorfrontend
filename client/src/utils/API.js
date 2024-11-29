@@ -9,7 +9,7 @@ import axios from "axios";
 
 //   updateUser: (uid) => axios.put("api/users/", uid),
 
-//   // removeStock: (uid) => axios.put("api/users/", uid),
+//   removeStock: (uid) => axios.put("api/users/", uid),
 
 //   uploadPhoto: (formData) => {
 //     return axios.post("/upload", formData, {

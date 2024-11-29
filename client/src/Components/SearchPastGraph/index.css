@@ -14,13 +14,13 @@
   display: flex;
 }
 .actualPriceTittle {
-  margin: 20px 0 0 30px;
+  margin: 0 0 0 30px;
   border: 2px solid violet;
   padding: 10px;
 }
 
 .predictedPriceTittle {
-  margin: 20px 0 0 100px;
+  margin: 0 0 0 100px;
   border: 2px solid yellow;
   padding: 10px;
 }

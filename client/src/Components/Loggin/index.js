@@ -20,21 +20,12 @@ export default function Loggin() {
     }
   };
 
-  // const handleGoogleLogin = async () => {
-  //   try {
-  //     await signupWithGoogle();
-  //     navigate("/dashboard");
-  //   } catch (error) {
-  //     console.error("Error during Google login:", error);
-  //   }
-  // };
-
   const handleGoogleLogin = async () => {
     try {
       console.log("Attempting Google login...");
       const result = await signupWithGoogle();
 
-      console.log("Google login result:", result); // Log the result
+      // console.log("Google login result:", result); // Log the result
       // navigate("/dashboard");
     } catch (error) {
       console.error("Error during Google login:", error);
@@ -43,9 +34,10 @@ export default function Loggin() {
 
   return (
     <div id="logginContainer">
-      <div id="logoTitle">Welcome to Stock Predictor</div>
+      <div id="logoTitle">Welcome to StockSeer.</div>
+      <div id="logoTitle">A stock Prediction application.</div>
       <form onSubmit={handleLogin} className="logginComponentContainer">
-        <div className="usernameClass">
+        {/* <div className="usernameClass">
           <label htmlFor="username">Username: </label>
           <input type="text" id="username" name="username" />
           <br />
@@ -55,18 +47,18 @@ export default function Loggin() {
           <br />
           <br />
           <input type="submit" value="Submit" />
-        </div>
+        </div> */}
         <div className="loginWithFirebase">
           <button type="button" onClick={handleGoogleLogin}>
-            Login with Google
+            Login / SignUp with Google
           </button>
         </div>
       </form>
 
-      <div className="newUserText">
+      {/* <div className="newUserText">
         For new users, create an account!
         <Link to="/signup"> Sign Up</Link>
-      </div>
+      </div> */}
     </div>
   );
 }

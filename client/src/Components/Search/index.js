@@ -14,157 +14,41 @@ const Search = () => {
   const { updatePhotoURL, currentUser } = useAuth();
   const { stockData, updateStockData } = useGlobalContext();
 
-  useEffect(() => {
-    updateStockData(stockData);
-  }, [stockData]);
+  // useEffect(() => {
+  //   updateStockData(stockData);
+  // }, [stockData]);
 
-  // // Handle form submission to make API call
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  // useEffect(() => {
+  //   console.log("stockData from search: ", stockData);
+  // }, [stockData]);
 
-  //   if (!stockName) {
-  //     setError("Please select a stock.");
-  //     return;
-  //   }
+  // combine filtered_actual_Predictions
+  function combineDataWithStockData(filtered_actual_Predictions) {
+    return filtered_actual_Predictions
+      .map((entry, index) => {
+        // Ensure entry.actual exists and has the $numberDecimal property
+        const actualPrice = entry.actual?.$numberDecimal
+          ? parseFloat(entry.actual.$numberDecimal)
+          : null;
 
-  //   try {
-  //     setError(null); // Clear previous errors
+        // Ensure entry.predicted exists and has the $numberDecimal property
+        const predictedPrice = entry.predicted?.$numberDecimal
+          ? parseFloat(entry.predicted.$numberDecimal)
+          : null;
 
-  //     // Get stock data by name
-  //     const response = await API.getStockByName(stockName);
+        return {
+          index: index, // Index from the filtered data
+          date: entry.date, // Include date for reference
+          actual: actualPrice, // Parsed actual price
+          predicted: predictedPrice, // Parsed predicted price
+        };
+      })
+      .filter((entry) => entry.realPrice !== null); // Filter out entries with no valid price
+  }
 
-  //     let stockData = response.data;
-
-  //     // If startDate and endDate are provided, filter the data between those dates
-  //     if (startDate && endDate && stockData["starDate"] <= startDate && stockData["endDate"] >= stockData) {
-  //       const start = new Date(startDate);
-  //       const end = new Date(endDate);
-
-  //       stockData = stockData.filter((entry) => {
-  //         const entryDate = new Date(entry.date); // Assuming `entry.date` holds the stock's date
-  //         return entryDate >= start && entryDate <= end;
-  //       });
-
-  //       console.log("Filtered Stock Data:", stockData);
-  //     } else {
-  //       console.log("Full Stock Data:", stockData);
-  //     }
-
-  //     // Update the stock data
-  //     updateStockData(stockData);
-
-  //     // Get the current user's data from the database
-  //     const userResponse = await API.getUser(currentUser.uid);
-  //     const { listOfStocks = [] } = userResponse.data;
-
-  //     // Check if the stock is already in the user's list
-  //     if (!listOfStocks.includes(stockName)) {
-  //       // Add the new stock to the list
-  //       const updatedStocks = [...listOfStocks, stockName]; // Create a new array with the new stock
-  //       await API.updateUser({
-  //         uid: currentUser.uid,
-  //         listOfStocks: updatedStocks, // Update with the new array
-  //       });
-  //       console.log("Added Stock to database:", stockName);
-  //     } else {
-  //       setError("Stock already in your list.");
-  //     }
-  //   } catch (err) {
-  //     console.error("Error updating user data:", err);
-  //     setError("Failed to update your stock list. Please try again.");
-  //   }
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!stockName) {
-  //     setError("Please select a stock.");
-  //     return;
-  //   }
-
-  //   try {
-  //     setError(null); // Clear previous errors
-
-  //     // Get stock data by name
-  //     const response = await API.getStockByName(stockName);
-
-  //     let stockData = response.data;
-
-  //     // If startDate and endDate are provided, filter the data between those dates
-  //     if (startDate && endDate) {
-  //       const dbStartDate = new Date(stockData["startDate"]);
-  //       const dbEndDate = new Date(stockData["endDate"]);
-
-  //       const userStartDate = new Date(startDate);
-  //       userStartDate.setDate(userStartDate.getDate() + 1);
-
-  //       const userEndDate = new Date(endDate);
-  //       userEndDate.setDate(userEndDate.getDate() + 1);
-
-  //       //
-  //       console.log("userStartDate:", userStartDate);
-  //       console.log("userEndDate:", userEndDate);
-  //       console.log("stockData:", stockData);
-
-  //       // Ensure the provided dates fall within the database range
-  //       // if (userStartDate >= dbStartDate && userEndDate <= dbEndDate) {
-  //       //   stockData = stockData.filter((entry) => {
-  //       //     const entryDate = new Date(entry.date);
-  //       //     return entryDate >= userStartDate && entryDate <= userEndDate;
-  //       //   });
-
-  //       //   console.log("Filtered Stock Data:", stockData);
-  //       // } else {
-  //       //   setError(
-  //       //     "The selected dates are outside the available range in the database."
-  //       //   );
-  //       //   return;
-  //       // }
-  //       if (userStartDate >= dbStartDate && userEndDate <= dbEndDate) {
-  //         // Check if actual_predictions_2D exists in stockData
-  //         if (stockData.actual_predictions_2D) {
-  //           const filteredPredictions = stockData.actual_predictions_2D.filter(
-  //             (entry) => {
-  //               const entryDate = new Date(entry.date); // Convert entry date to Date object
-  //               return entryDate >= userStartDate && entryDate <= userEndDate;
-  //             }
-  //           );
-
-  //           console.log("Filtered Predictions:", filteredPredictions);
-  //           return filteredPredictions;
-  //         } else {
-  //           throw new Error("actual_predictions_2D not found in stockData.");
-  //         }
-
-  //     } else {
-  //       console.log("Full Stock Data:", stockData);
-  //     }
-
-  //     // Update the stock data in the frontend
-  //     updateStockData(stockData);
-
-  //     // Get the current user's data from the database
-  //     const userResponse = await API.getUser(currentUser.uid);
-  //     const { listOfStocks = [] } = userResponse.data;
-
-  //     // Check if the stock is already in the user's list
-  //     if (!listOfStocks.includes(stockName)) {
-  //       // Add the new stock to the list
-  //       const updatedStocks = [...listOfStocks, stockName]; // Create a new array with the new stock
-  //       await API.updateUser({
-  //         uid: currentUser.uid,
-  //         listOfStocks: updatedStocks, // Update with the new array
-  //       });
-  //       console.log("Added Stock to database:", stockName);
-  //     } else {
-  //       setError("Stock already in your list.");
-  //     }
-  //   } catch (err) {
-  //     console.error("Error updating user data:", err);
-  //     setError("Failed to update your stock list. Please try again.");
-  //   }
-  // };
+  // useEffect(() => {
+  //   console.log("Combined Actual Prices:", combinedActualPrices);
+  // }, [combineDataWithStockData]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -189,28 +73,48 @@ const Search = () => {
 
         const userStartDate = new Date(startDate);
         userStartDate.setDate(userStartDate.getDate() + 1);
+        // console.log("Type of startDate1: ", typeof startDate);
+        // console.log("Type of dbStartDate: ", typeof dbStartDate);
 
         const userEndDate = new Date(endDate);
         userEndDate.setDate(userEndDate.getDate() + 1);
 
         console.log("userStartDate:", userStartDate);
+        console.log("type userStartDate:", typeof userStartDate);
         console.log("userEndDate:", userEndDate);
+        console.log("type userEndDate:", typeof userEndDate);
         console.log("dbStartDate:", dbStartDate);
+        console.log("type dbStartDate:", typeof dbStartDate);
         console.log("dbEndDate:", dbEndDate);
+        console.log("type dbEndDate:", typeof dbEndDate);
         console.log("stockData:", stockData);
+        console.log("typenstockData:", typeof stockData);
+
+        console.log(
+          "true: ",
+          userStartDate >= dbStartDate && userEndDate <= dbEndDate
+        );
 
         if (userStartDate >= dbStartDate && userEndDate <= dbEndDate) {
           console.log("Date features");
           // Check if actual_predictions_2D exists in stockData
           if (stockData[0].actual_predictions_2D) {
-            const filteredPredictions =
+            const filtered_actual_Predictions =
               stockData[0].actual_predictions_2D.filter((entry) => {
                 const entryDate = new Date(entry.date); // Convert entry date to Date object
                 return entryDate >= userStartDate && entryDate <= userEndDate;
               });
 
-            console.log("Filtered Predictions:", filteredPredictions);
-            updateStockData(filteredPredictions);
+            console.log("Filtered Predictions:", filtered_actual_Predictions);
+            // combinedActualPrices(filtered_actual_Predictions);
+            // updateStockData(filtered_actual_Predictions);
+            updateStockData(
+              combineDataWithStockData(filtered_actual_Predictions)
+            );
+            console.log(
+              "Combined Actual Prices:",
+              combineDataWithStockData(filtered_actual_Predictions)
+            );
             // return filteredPredictions;
           } else {
             throw new Error("actual_predictions_2D not found in stockData.");
@@ -218,10 +122,10 @@ const Search = () => {
         } else {
           console.log("Full Stock Data:", stockData);
         }
+      } else if (!startDate && !endDate) {
+        // Update the stock data in the frontend
+        updateStockData(stockData);
       }
-
-      // Update the stock data in the frontend
-      updateStockData(stockData);
 
       // Get the current user's data from the database
       const userResponse = await API.getUser(currentUser.uid);
@@ -244,6 +148,92 @@ const Search = () => {
       setError("Failed to update your stock list. Please try again.");
     }
   };
+
+  useEffect(() => {
+    if (pastDrop === "") {
+      setStartDate("");
+      setEndDate("");
+    } else {
+      switch (pastDrop) {
+        case "10":
+          setStartDate("2000-03-02");
+          setEndDate("2002-10-01");
+          break;
+        case "20":
+          setStartDate("2007-12-01");
+          setEndDate("2009-06-01");
+          break;
+        case "30":
+          setStartDate("2020-02-01");
+          setEndDate("2021-01-01");
+          break;
+        default:
+          setStartDate("");
+          setEndDate("");
+      }
+    }
+  }, [pastDrop]);
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (!stockName) {
+  //     setError("Please select a stock.");
+  //     return;
+  //   }
+
+  //   try {
+  //     setError(null);
+
+  //     const response = await API.getStockByName(stockName);
+  //     let stockData = response.data;
+
+  //     if (startDate && endDate) {
+  //       const dbStartDate = new Date(stockData[0].startDate);
+  //       const dbEndDate = new Date(stockData[0].endDate);
+
+  //       const userStartDate = new Date(startDate);
+  //       userStartDate.setDate(userStartDate.getDate() + 1);
+
+  //       const userEndDate = new Date(endDate);
+  //       userEndDate.setDate(userEndDate.getDate() + 1);
+
+  //       if (userStartDate >= dbStartDate && userEndDate <= dbEndDate) {
+  //         if (stockData[0].actual_predictions_2D) {
+  //           const filteredPredictions =
+  //             stockData[0].actual_predictions_2D.filter((entry) => {
+  //               const entryDate = new Date(entry.date);
+  //               return entryDate >= userStartDate && entryDate <= userEndDate;
+  //             });
+
+  //           const updatedData = combineDataWithStockData(filteredPredictions);
+  //           updateStockData(updatedData);
+  //         } else {
+  //           throw new Error("actual_predictions_2D not found in stockData.");
+  //         }
+  //       }
+  //     } else if (!startDate && !endDate) {
+  //       updateStockData(stockData);
+  //     }
+
+  //     const userResponse = await API.getUser(currentUser.uid);
+  //     const { listOfStocks = [] } = userResponse.data;
+
+  //     if (!listOfStocks.includes(stockName)) {
+  //       const updatedStocks = [...listOfStocks, stockName];
+  //       await API.updateUser({
+  //         uid: currentUser.uid,
+  //         listOfStocks: updatedStocks,
+  //       });
+  //       console.log("Added Stock to database:", stockName);
+  //     } else {
+  //       setError("Stock already in your list.");
+  //     }
+  //   } catch (err) {
+  //     console.error("Error updating user data:", err);
+  //     setError("Failed to update your stock list. Please try again.");
+  //   }
+  // };
 
   return (
     <div className="search-container">
@@ -328,7 +318,7 @@ const Search = () => {
             onChange={(e) => setEndDate(e.target.value)}
           />
         </label>
-        <label>
+        {/* <label>
           Past Recessions:
           <select
             value={pastDrop}
@@ -339,7 +329,7 @@ const Search = () => {
             <option value="20">GREAT_RECESSION</option>
             <option value="30">COVID_RECESSION</option>
           </select>
-        </label>
+        </label> */}
         <button type="submit">Submit</button>
       </form>
     </div>

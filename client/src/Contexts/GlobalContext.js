@@ -106,7 +106,7 @@ export const GlobalProvider = (props) => {
       return;
     }
 
-    console.log("GET CURRENT USER");
+    // console.log("GET CURRENT USER");
     setTimeout(() => getCurrentUser(currentUser.uid), 1500);
     // setTimeout(() => getStock(), 1500);
   }, [currentUser]);
