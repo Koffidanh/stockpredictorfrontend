@@ -293,6 +293,7 @@ const Search = () => {
               { ticker: "QQQ", name: "INVESCO QQQ TRUST" },
               { ticker: "TSLA", name: "TESLA" },
               { ticker: "BTC-USD", name: "BITCOIN" },
+              { ticker: "ETH-USD", name: "ETHEREUM" },
             ]
               .sort((a, b) => a.name.localeCompare(b.name)) // Sorting alphabetically by name
               .map((stock) => (
