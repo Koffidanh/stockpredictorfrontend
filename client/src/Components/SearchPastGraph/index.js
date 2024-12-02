@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./index.css";
 import { useGlobalContext } from "../../Contexts/GlobalContext";
 import {
@@ -46,8 +46,8 @@ const SearchPastGraph = () => {
   //     realPrice: entry.actual !== undefined ? parseFloat(entry.actual) : null, // Directly access the price
   //   })) || [];
 
-  // Assuming you have a way to know if the data is filtered (e.g., filtered stockData)
-  const isDataFiltered = stockData.some((entry) => entry.date); // Example check if filtering happened based on date or similar
+  const isDataFiltered =
+    Array.isArray(stockData) && stockData.some((entry) => entry.date); //check if filtering happened based on date or similar
 
   // Use appropriate logic for mapping actualPrices based on whether data is filtered
   const actualPrices = isDataFiltered
@@ -103,18 +103,40 @@ const SearchPastGraph = () => {
   if (lastActualPrice !== null && lastPredictedPrice !== null) {
     const percentageDifference =
       ((lastPredictedPrice - lastActualPrice) / lastActualPrice) * 100;
+    console.log(
+      "color: ",
+      ((lastPredictedPrice - lastActualPrice) / lastActualPrice) * 100
+    );
 
     if (percentageDifference > 10) {
       predictedBoxColor = "green";
       actualBoxColor = "green";
-    } else if (percentageDifference < -10) {
+    } else if (percentageDifference < 0) {
       predictedBoxColor = "red";
       actualBoxColor = "red";
-    } else if (percentageDifference == 0) {
+    } else if (percentageDifference < 10) {
       predictedBoxColor = "yellow";
       actualBoxColor = "yellow";
     }
   }
+
+  // useEffect(() => {
+  //   if (lastActualPrice !== null && lastPredictedPrice !== null) {
+  //     const percentageDifference =
+  //       ((lastPredictedPrice - lastActualPrice) / lastActualPrice) * 100;
+
+  //     if (percentageDifference > 10) {
+  //       predictedBoxColor = "green";
+  //       actualBoxColor = "green";
+  //     } else if (percentageDifference < -10) {
+  //       predictedBoxColor = "red";
+  //       actualBoxColor = "red";
+  //     } else if (percentageDifference == 0) {
+  //       predictedBoxColor = "yellow";
+  //       actualBoxColor = "yellow";
+  //     }
+  //   }
+  // }, [stockData]);
 
   return (
     <div className="graphs">
@@ -131,7 +153,7 @@ const SearchPastGraph = () => {
           onMouseEnter={(e) =>
             handleMouseEnter(
               e,
-              "The actual price box color indicates its comparison to the predicted price. Green  to buy. Red Not to buy. Yellow with caution."
+              "The actual price box color indicates its comparison to the predicted price. Violet is Null. Green is to buy. Red is Not to buy. Yellow is to buy with caution. This is based on 10% above or below the predicted value!"
             )
           }
           onMouseMove={handleMouseMove}
@@ -151,7 +173,7 @@ const SearchPastGraph = () => {
           onMouseEnter={(e) =>
             handleMouseEnter(
               e,
-              "The predicted price box color indicates its comparison to the actual price."
+              "The actual price box color indicates its comparison to the predicted price. Green  to buy. Red Not to buy. Yellow with caution. This is based on 10% above or below the predicted value!"
             )
           }
           onMouseMove={handleMouseMove}

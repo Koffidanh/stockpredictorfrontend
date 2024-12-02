@@ -12,15 +12,15 @@ const Search = () => {
   const [error, setError] = useState("");
   // const [stockData, setStockData] = useState();
   const { updatePhotoURL, currentUser } = useAuth();
-  const { stockData, updateStockData } = useGlobalContext();
+  const { stockData, updateStockData, appendToList } = useGlobalContext();
 
-  // useEffect(() => {
-  //   updateStockData(stockData);
-  // }, [stockData]);
+  useEffect(() => {
+    updateStockData(stockData);
+  }, [stockData]);
 
-  // useEffect(() => {
-  //   console.log("stockData from search: ", stockData);
-  // }, [stockData]);
+  useEffect(() => {
+    console.log("stockData from search: ", stockData);
+  }, [stockData]);
 
   // combine filtered_actual_Predictions
   function combineDataWithStockData(filtered_actual_Predictions) {
@@ -65,6 +65,8 @@ const Search = () => {
       const response = await API.getStockByName(stockName);
 
       let stockData = response.data;
+
+      appendToList(stockData);
 
       // If startDate and endDate are provided, filter the data between those dates
       if (startDate && endDate) {
@@ -173,67 +175,6 @@ const Search = () => {
       }
     }
   }, [pastDrop]);
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!stockName) {
-  //     setError("Please select a stock.");
-  //     return;
-  //   }
-
-  //   try {
-  //     setError(null);
-
-  //     const response = await API.getStockByName(stockName);
-  //     let stockData = response.data;
-
-  //     if (startDate && endDate) {
-  //       const dbStartDate = new Date(stockData[0].startDate);
-  //       const dbEndDate = new Date(stockData[0].endDate);
-
-  //       const userStartDate = new Date(startDate);
-  //       userStartDate.setDate(userStartDate.getDate() + 1);
-
-  //       const userEndDate = new Date(endDate);
-  //       userEndDate.setDate(userEndDate.getDate() + 1);
-
-  //       if (userStartDate >= dbStartDate && userEndDate <= dbEndDate) {
-  //         if (stockData[0].actual_predictions_2D) {
-  //           const filteredPredictions =
-  //             stockData[0].actual_predictions_2D.filter((entry) => {
-  //               const entryDate = new Date(entry.date);
-  //               return entryDate >= userStartDate && entryDate <= userEndDate;
-  //             });
-
-  //           const updatedData = combineDataWithStockData(filteredPredictions);
-  //           updateStockData(updatedData);
-  //         } else {
-  //           throw new Error("actual_predictions_2D not found in stockData.");
-  //         }
-  //       }
-  //     } else if (!startDate && !endDate) {
-  //       updateStockData(stockData);
-  //     }
-
-  //     const userResponse = await API.getUser(currentUser.uid);
-  //     const { listOfStocks = [] } = userResponse.data;
-
-  //     if (!listOfStocks.includes(stockName)) {
-  //       const updatedStocks = [...listOfStocks, stockName];
-  //       await API.updateUser({
-  //         uid: currentUser.uid,
-  //         listOfStocks: updatedStocks,
-  //       });
-  //       console.log("Added Stock to database:", stockName);
-  //     } else {
-  //       setError("Stock already in your list.");
-  //     }
-  //   } catch (err) {
-  //     console.error("Error updating user data:", err);
-  //     setError("Failed to update your stock list. Please try again.");
-  //   }
-  // };
 
   return (
     <div className="search-container">

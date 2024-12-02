@@ -129,9 +129,9 @@ const ListStock = () => {
                         Delete
                       </a>
                     </li>
-                    <li>
+                    {/* <li>
                       <a href="#settings">Update</a>
-                    </li>
+                    </li> */}
                   </ul>
                 )}
               </div>
