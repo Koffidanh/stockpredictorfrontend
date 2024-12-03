@@ -1,6 +1,6 @@
 // export default ListStock;
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useGlobalContext } from "../../Contexts/GlobalContext";
 import ViewListPredict from "../ViewListPredict"; // Import the graph component
 import { useAuth } from "../../Contexts/AuthContext/index"; // Import useAuth
@@ -15,6 +15,8 @@ const ListStock = () => {
     updateStockSelected,
     selectedStock,
     deleteStockData,
+    objectDatas,
+    removeFromPastList,
   } = useGlobalContext();
 
   // Store dropdown state for each stock
@@ -24,6 +26,10 @@ const ListStock = () => {
     // Toggle the dropdown for the specific stock
     setOpenDropdownIndex(openDropdownIndex === index ? null : index);
   };
+
+  // useEffect(() => {
+  //   console.log("stockDataobjectDatas:", objectDatas);
+  // }, [objectDatas]);
 
   const handleStockClick = (stock) => {
     // Handle the stock click event and set selected stock
@@ -46,8 +52,10 @@ const ListStock = () => {
     }
 
     try {
+      // console.log("selectedtodelete: ", selectedStock);
       // Remove the stock from the local state
-      deleteStockData(selectedStock);
+      await removeFromPastList(selectedStock);
+      await deleteStockData(selectedStock);
 
       // Call the backend API to remove the stock from the database
       const response = await API.updateUser({
@@ -57,7 +65,7 @@ const ListStock = () => {
       });
 
       if (response.status === 200) {
-        console.log("Stock removed from user list in database:", selectedStock);
+        // console.log("Stock removed from user list in database:", selectedStock);
       } else {
         setError("Failed to remove stock from the database.");
       }
@@ -70,9 +78,9 @@ const ListStock = () => {
   return (
     <div className="stock-list">
       <h3>List of Selected Stocks</h3>
-      <p>Trained on: {listOfChoosenStocksObjects[0]?.last_trained}</p>
+      <p>Trained on: {objectDatas[0]?.last_trained}</p>
       <hr />
-      {listOfChoosenStocksObjects?.map((stock, index) => {
+      {objectDatas?.map((stock, index) => {
         const actualPrices = stock.actual.map((price) =>
           parseFloat(price.$numberDecimal)
         );

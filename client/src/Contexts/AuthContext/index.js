@@ -36,17 +36,17 @@ export function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(globalReducer, initialState);
 
   const delay = 5;
-  useEffect(() => {
-    console.log("LOGGEDIN: " + state.loggedIn);
-  }, [state.loggedIn]);
+  // useEffect(() => {
+  //   console.log("LOGGEDIN: " + state.loggedIn);
+  // }, [state.loggedIn]);
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
 
-  useEffect(() => {
-    setTimeout(() => setShow("Time has passed"), 10000);
-    console.log("TIMER: " + show);
-  }, [show]);
+  // useEffect(() => {
+  //   setTimeout(() => setShow("Time has passed"), 10000);
+  //   console.log("TIMER: " + show);
+  // }, [show]);
 
   const navigate = useNavigate();
 
@@ -63,16 +63,16 @@ export function AuthProvider({ children }) {
           uid: result.user.uid,
         };
 
-        console.log(newUser);
+        // console.log(newUser);
 
         const existingUser = await API.getUser(newUser.uid);
-        console.log("existingUser.length: ", existingUser.data.length);
+        // console.log("existingUser.length: ", existingUser.data.length);
 
         if (!existingUser || existingUser.data.length === 0) {
           await API.saveUser(newUser);
-          console.log("New user saved to the database:", newUser);
+          // console.log("New user saved to the database:", newUser);
         } else {
-          console.log("User already exists. Fetched user data:", existingUser);
+          // console.log("User already exists. Fetched user data:", existingUser);
         }
 
         // Simulate a delay before navigating to the dashboard
@@ -81,7 +81,7 @@ export function AuthProvider({ children }) {
           navigate("/dashboard");
         }, 3000);
       } else {
-        console.log("I'm Sorry, I'm afraid I can't do that.");
+        // console.log("I'm Sorry, I'm afraid I can't do that.");
         setLoading(false);
       }
     } catch (error) {
@@ -106,10 +106,10 @@ export function AuthProvider({ children }) {
             hasPassword: true,
           };
 
-          console.log(newUser);
+          // console.log(newUser);
           API.saveUser(newUser);
         } else {
-          console.log("I'm Sorry, I'm afraid I can't do that.");
+          // console.log("I'm Sorry, I'm afraid I can't do that.");
         }
       });
   }
@@ -142,7 +142,7 @@ export function AuthProvider({ children }) {
   }
 
   function updatePassword(password) {
-    console.log("update password function");
+    // console.log("update password function");
     return currentUser.updatePassword(password);
   }
 
@@ -177,7 +177,7 @@ export function AuthProvider({ children }) {
   };
 
   function deleteAccount() {
-    console.log("delete function");
+    // console.log("delete function");
     // const auth = getAuth();
     // const user = auth.currentUser;
 

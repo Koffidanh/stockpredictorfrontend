@@ -60,7 +60,7 @@ const SearchPastGraph = () => {
         realPrice: parseFloat(price["$numberDecimal"]),
       })) || [];
 
-  console.log("stockData in searchpastgraph: ", stockData);
+  // console.log("stockData in searchpastgraph: ", stockData);
 
   // const predictedPrices =
   //   stockData[0]?.predictions?.map((price, index) => ({
@@ -68,7 +68,7 @@ const SearchPastGraph = () => {
   //     realPrice: parseFloat(price["$numberDecimal"]),
   //   })) || [];
 
-  console.log("stockDatasssss: ", stockData);
+  // console.log("stockDatasssss: ", stockData);
   const predictedPrices = isDataFiltered
     ? stockData.map((entry, index) => ({
         index: index,
@@ -80,7 +80,7 @@ const SearchPastGraph = () => {
         realPrice: parseFloat(price["$numberDecimal"]),
       })) || []; // Handle unfiltered data
 
-  console.log("predictedPrices: ", predictedPrices);
+  // console.log("predictedPrices: ", predictedPrices);
 
   // Check if the last elements exist before trying to access realPrice
   const lastActualPrice =
@@ -88,13 +88,13 @@ const SearchPastGraph = () => {
       ? actualPrices[actualPrices.length - 1].realPrice
       : null;
 
-  console.log("predictedPricessssss: ", predictedPrices);
+  // console.log("predictedPricessssss: ", predictedPrices);
   const lastPredictedPrice =
     predictedPrices.length > 0
       ? predictedPrices[predictedPrices.length - 1].realPrice
       : null;
 
-  console.log("lastPredictedPrice: ", lastPredictedPrice);
+  // console.log("lastPredictedPrice: ", lastPredictedPrice);
 
   // Calculate percentage difference and determine box colors
   let actualBoxColor = "violet";
@@ -103,10 +103,10 @@ const SearchPastGraph = () => {
   if (lastActualPrice !== null && lastPredictedPrice !== null) {
     const percentageDifference =
       ((lastPredictedPrice - lastActualPrice) / lastActualPrice) * 100;
-    console.log(
-      "color: ",
-      ((lastPredictedPrice - lastActualPrice) / lastActualPrice) * 100
-    );
+    // console.log(
+    //   "color: ",
+    //   ((lastPredictedPrice - lastActualPrice) / lastActualPrice) * 100
+    // );
 
     if (percentageDifference > 10) {
       predictedBoxColor = "green";

@@ -12,15 +12,16 @@ const Search = () => {
   const [error, setError] = useState("");
   // const [stockData, setStockData] = useState();
   const { updatePhotoURL, currentUser } = useAuth();
-  const { stockData, updateStockData, appendToList } = useGlobalContext();
+  const { stockData, updateStockData, appendToList, appendToPastList } =
+    useGlobalContext();
 
   useEffect(() => {
     updateStockData(stockData);
   }, [stockData]);
 
-  useEffect(() => {
-    console.log("stockData from search: ", stockData);
-  }, [stockData]);
+  // useEffect(() => {
+  //   console.log("stockData from search: ", stockData);
+  // }, [stockData]);
 
   // combine filtered_actual_Predictions
   function combineDataWithStockData(filtered_actual_Predictions) {
@@ -67,6 +68,7 @@ const Search = () => {
       let stockData = response.data;
 
       appendToList(stockData);
+      appendToPastList(stockData[0]);
 
       // If startDate and endDate are provided, filter the data between those dates
       if (startDate && endDate) {
@@ -81,24 +83,24 @@ const Search = () => {
         const userEndDate = new Date(endDate);
         userEndDate.setDate(userEndDate.getDate() + 1);
 
-        console.log("userStartDate:", userStartDate);
-        console.log("type userStartDate:", typeof userStartDate);
-        console.log("userEndDate:", userEndDate);
-        console.log("type userEndDate:", typeof userEndDate);
-        console.log("dbStartDate:", dbStartDate);
-        console.log("type dbStartDate:", typeof dbStartDate);
-        console.log("dbEndDate:", dbEndDate);
-        console.log("type dbEndDate:", typeof dbEndDate);
-        console.log("stockData:", stockData);
-        console.log("typenstockData:", typeof stockData);
+        // console.log("userStartDate:", userStartDate);
+        // console.log("type userStartDate:", typeof userStartDate);
+        // console.log("userEndDate:", userEndDate);
+        // console.log("type userEndDate:", typeof userEndDate);
+        // console.log("dbStartDate:", dbStartDate);
+        // console.log("type dbStartDate:", typeof dbStartDate);
+        // console.log("dbEndDate:", dbEndDate);
+        // console.log("type dbEndDate:", typeof dbEndDate);
+        // console.log("stockData:", stockData);
+        // console.log("typenstockData:", typeof stockData);
 
-        console.log(
-          "true: ",
-          userStartDate >= dbStartDate && userEndDate <= dbEndDate
-        );
+        // console.log(
+        //   "true: ",
+        //   userStartDate >= dbStartDate && userEndDate <= dbEndDate
+        // );
 
         if (userStartDate >= dbStartDate && userEndDate <= dbEndDate) {
-          console.log("Date features");
+          // console.log("Date features");
           // Check if actual_predictions_2D exists in stockData
           if (stockData[0].actual_predictions_2D) {
             const filtered_actual_Predictions =
@@ -107,22 +109,22 @@ const Search = () => {
                 return entryDate >= userStartDate && entryDate <= userEndDate;
               });
 
-            console.log("Filtered Predictions:", filtered_actual_Predictions);
+            // console.log("Filtered Predictions:", filtered_actual_Predictions);
             // combinedActualPrices(filtered_actual_Predictions);
             // updateStockData(filtered_actual_Predictions);
             updateStockData(
               combineDataWithStockData(filtered_actual_Predictions)
             );
-            console.log(
-              "Combined Actual Prices:",
-              combineDataWithStockData(filtered_actual_Predictions)
-            );
+            // console.log(
+            //   "Combined Actual Prices:",
+            //   combineDataWithStockData(filtered_actual_Predictions)
+            // );
             // return filteredPredictions;
           } else {
             throw new Error("actual_predictions_2D not found in stockData.");
           }
         } else {
-          console.log("Full Stock Data:", stockData);
+          // console.log("Full Stock Data:", stockData);
         }
       } else if (!startDate && !endDate) {
         // Update the stock data in the frontend
@@ -141,7 +143,7 @@ const Search = () => {
           uid: currentUser.uid,
           listOfStocks: updatedStocks, // Update with the new array
         });
-        console.log("Added Stock to database:", stockName);
+        // console.log("Added Stock to database:", stockName);
       } else {
         setError("Stock already in your list.");
       }

@@ -15,6 +15,7 @@ const initialState = {
   userProfileImage: [],
   selectedStock: [],
   stockData: [],
+  objectDatas: [],
 };
 
 // reducer
@@ -85,6 +86,11 @@ const globalReducer = (state, action) => {
         ...state,
         stockData: action.payload,
       };
+    case "SET_OBJECT_DATA":
+      return {
+        ...state,
+        objectDatas: action.payload,
+      };
 
     default:
       return state;
@@ -110,6 +116,13 @@ export const GlobalProvider = (props) => {
     setTimeout(() => getCurrentUser(currentUser.uid), 1500);
     // setTimeout(() => getStock(), 1500);
   }, [currentUser]);
+
+  // useEffect(() => {
+  //   console.log(
+  //     "listOfChoosenStocksObjects in global: " +
+  //       JSON.stringify(state.listOfChoosenStocksObjects)
+  //   );
+  // }, [state.listOfChoosenStocksObjects]);
 
   // useEffect(() => {
   //   console.log(
@@ -166,6 +179,10 @@ export const GlobalProvider = (props) => {
           type: "SET_LIST_CHOOSEN_STOCK",
           payload: stocksData, // This will be a flat array of stock objects
         });
+        dispatch({
+          type: "SET_OBJECT_DATA",
+          payload: stocksData, // This will be a flat array of stock objects
+        });
       } else {
         console.error(
           "No data returned from API or the response format is invalid."
@@ -200,6 +217,7 @@ export const GlobalProvider = (props) => {
   };
 
   const deleteStockData = (data) => {
+    // console.log("stock to deleteStockData from context: ", data);
     dispatch({
       type: "SET_DATA_STOCK",
       payload: (prevData) => prevData.filter((stock) => stock.id !== data.id),
@@ -220,6 +238,21 @@ export const GlobalProvider = (props) => {
     });
   };
 
+  const appendToPastList = (data) => {
+    dispatch({
+      type: "SET_OBJECT_DATA",
+      payload: [...state.objectDatas, data],
+    });
+  };
+
+  const removeFromPastList = (data) => {
+    // console.log("stock to remove from context: ", data);
+    dispatch({
+      type: "SET_OBJECT_DATA",
+      payload: state.objectDatas.filter((item) => item.ticker !== data.ticker),
+    });
+  };
+
   const value = {
     ...state,
     getCurrentUser,
@@ -229,6 +262,8 @@ export const GlobalProvider = (props) => {
     updateStockSelected,
     updateStockData,
     deleteStockData,
+    appendToPastList,
+    removeFromPastList,
   };
 
   return (

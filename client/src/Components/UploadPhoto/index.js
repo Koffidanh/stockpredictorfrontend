@@ -23,14 +23,14 @@ export default function UploadPhoto() {
         reader.onloadend = () => {
           // Use the base64 string to update the profile image
           updateProfileImage(reader.result); // Pass the base64 string
-          console.log("Base64 Image:", reader.result); // Log the base64 image string (optional)
+          // console.log("Base64 Image:", reader.result); // Log the base64 image string (optional)
           setUpdateButtonText(true);
         };
 
         reader.readAsDataURL(file); // Convert the image to base64
-        console.log("Selected file:", file); // Log the image file to the console
+        // console.log("Selected file:", file); // Log the image file to the console
       } else {
-        console.log("Please select a valid image file.");
+        // console.log("Please select a valid image file.");
       }
     }
   };
@@ -43,10 +43,10 @@ export default function UploadPhoto() {
     });
   };
 
-  useEffect(() => {
-    console.log("userProfileImage1:", userProfileImage);
-    console.log("userProfileImage1lenght:", userProfileImage?.length > 0);
-  }, [userProfileImage]);
+  // useEffect(() => {
+  //   console.log("userProfileImage1:", userProfileImage);
+  //   console.log("userProfileImage1lenght:", userProfileImage?.length > 0);
+  // }, [userProfileImage]);
 
   return (
     <div className="uploadPopup">

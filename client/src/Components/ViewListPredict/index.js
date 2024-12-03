@@ -12,9 +12,9 @@ import {
 } from "recharts";
 
 const ViewListPredict = ({ selectedStock }) => {
-  useEffect(() => {
-    console.log("selectedStock in the viewListPredict:", selectedStock);
-  }, [selectedStock]);
+  // useEffect(() => {
+  //   console.log("selectedStock in the viewListPredict:", selectedStock);
+  // }, [selectedStock]);
 
   // // Ensure selectedStock is defined and has the necessary properties
   // if (!selectedStock) {
