@@ -83,42 +83,46 @@ const Search = () => {
         const userEndDate = new Date(endDate);
         userEndDate.setDate(userEndDate.getDate() + 1);
 
-        // console.log("userStartDate:", userStartDate);
-        // console.log("type userStartDate:", typeof userStartDate);
-        // console.log("userEndDate:", userEndDate);
-        // console.log("type userEndDate:", typeof userEndDate);
-        // console.log("dbStartDate:", dbStartDate);
-        // console.log("type dbStartDate:", typeof dbStartDate);
-        // console.log("dbEndDate:", dbEndDate);
-        // console.log("type dbEndDate:", typeof dbEndDate);
-        // console.log("stockData:", stockData);
-        // console.log("typenstockData:", typeof stockData);
+        console.log("userStartDate:", userStartDate);
+        console.log("type userStartDate:", typeof userStartDate);
+        console.log("userEndDate:", userEndDate);
+        console.log("type userEndDate:", typeof userEndDate);
+        console.log("dbStartDate:", dbStartDate);
+        console.log("type dbStartDate:", typeof dbStartDate);
+        console.log("dbEndDate:", dbEndDate);
+        console.log("type dbEndDate:", typeof dbEndDate);
+        console.log("stockData:", stockData);
+        console.log("typenstockData:", typeof stockData);
 
-        // console.log(
-        //   "true: ",
-        //   userStartDate >= dbStartDate && userEndDate <= dbEndDate
-        // );
+        console.log(
+          "true: ",
+          userStartDate >= dbStartDate && userEndDate <= dbEndDate
+        );
 
         if (userStartDate >= dbStartDate && userEndDate <= dbEndDate) {
-          // console.log("Date features");
+          console.log("Date features");
           // Check if actual_predictions_2D exists in stockData
           if (stockData[0].actual_predictions_2D) {
+            console.log(
+              "stockData[0].actual_predictions_2D: ",
+              stockData[0].actual_predictions_2D
+            );
             const filtered_actual_Predictions =
               stockData[0].actual_predictions_2D.filter((entry) => {
                 const entryDate = new Date(entry.date); // Convert entry date to Date object
                 return entryDate >= userStartDate && entryDate <= userEndDate;
               });
 
-            // console.log("Filtered Predictions:", filtered_actual_Predictions);
+            console.log("Filtered Predictions:", filtered_actual_Predictions);
             // combinedActualPrices(filtered_actual_Predictions);
             // updateStockData(filtered_actual_Predictions);
             updateStockData(
               combineDataWithStockData(filtered_actual_Predictions)
             );
-            // console.log(
-            //   "Combined Actual Prices:",
-            //   combineDataWithStockData(filtered_actual_Predictions)
-            // );
+            console.log(
+              "Combined Actual Prices:",
+              combineDataWithStockData(filtered_actual_Predictions)
+            );
             // return filteredPredictions;
           } else {
             throw new Error("actual_predictions_2D not found in stockData.");
@@ -164,7 +168,7 @@ const Search = () => {
           setEndDate("2002-10-01");
           break;
         case "20":
-          setStartDate("2007-12-01");
+          setStartDate("2007-11-30");
           setEndDate("2009-06-01");
           break;
         case "30":
@@ -262,7 +266,7 @@ const Search = () => {
             onChange={(e) => setEndDate(e.target.value)}
           />
         </label>
-        {/* <label>
+        <label>
           Past Recessions:
           <select
             value={pastDrop}
@@ -273,7 +277,7 @@ const Search = () => {
             <option value="20">GREAT_RECESSION</option>
             <option value="30">COVID_RECESSION</option>
           </select>
-        </label> */}
+        </label>
         <button type="submit">Submit</button>
       </form>
     </div>

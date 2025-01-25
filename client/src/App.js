@@ -7,6 +7,8 @@ import { AuthProvider } from "./Contexts/AuthContext";
 import PrivateRoute from "./Components/PrivateRoute";
 import { GlobalProvider } from "./Contexts/GlobalContext";
 import Profiles from "./Components/Pages/Profiles";
+import Settings from "./Components/Pages/Settings";
+import Delete from "./Components/Pages/Delete";
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
             <Route path="/" element={<Loggin />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/profile" element={<Profiles />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/delete" element={<Delete />} />
             <Route
               path="/dashboard"
               element={

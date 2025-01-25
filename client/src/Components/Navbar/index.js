@@ -44,6 +44,17 @@ const Navbar = () => {
     navigate("/profile"); // Navigate to profile page
   };
 
+  const goToSetting = () => {
+    navigate("/settings"); // Navigate to profile page
+  };
+
+  // useEffect(() => {
+  //   if (!currentUser) {
+  //     navigate("/");
+  //   }
+  // }, [currentUser]);
+  console.log("usernameNavbar: ", user[0].userName);
+
   // useEffect(() => {
   //   if (!isOpenPhotoUpdated) {
   //     setUpdateProfileImage(false); // Close the UploadPhoto component
@@ -87,14 +98,16 @@ const Navbar = () => {
             </button>
             {isOpen && (
               <ul className="dropdown-menu">
-                <li>
+                {/* <li>
                   <a href="#profile" onClick={goToProfile}>
                     Profile
                   </a>
-                </li>
-                {/* <li>
-                  <a href="#settings">Settings</a>
                 </li> */}
+                <li>
+                  <a href="#settings" onClick={goToSetting}>
+                    Settings
+                  </a>
+                </li>
                 <li>
                   <a onClick={handleLogout} className="logout-button">
                     Logout

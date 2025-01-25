@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { API } from "../../../utils/API";
 import { useAuth } from "../../../Contexts/AuthContext/index"; // Import useAuth
 import "./index.css"; // Import the CSS file for styling
-// import { events } from "../../../../../server/models/user";
+import Navbar from "../../Navbar";
 
 export default function Profiles() {
   const navigate = useNavigate();
@@ -35,26 +35,30 @@ export default function Profiles() {
   };
 
   return (
-    <div id="profileUpdatedContainer">
-      <div id="logoTitle">Sign up to Stock Predictor</div>
-      <form
-        onSubmit={handleUpdatedProfile}
-        className="profileUpdatedComponentContainer"
-      >
-        <label htmlFor="UpdatedUsername">New Username: </label>
-        <input type="text" id="UpdatedUsername" name="UpdatedUsername" />
-        <br />
-        <br />
-        {/* <label htmlFor="UpdatedPassword">New Password: </label> */}
-        {/* <input
-          type="UpdatedPassword"
+    <div>
+      <Navbar />
+      <div id="profileUpdatedContainer">
+        <div id="logoTitle">Sign up to Stock Predictor</div>
+        <form
+          onSubmit={handleUpdatedProfile}
+          className="profileUpdatedComponentContainer"
+        >
+          <label htmlFor="UpdatedUsername">New Username: </label>
+          <input type="text" id="UpdatedUsername" name="UpdatedUsername" />
+          <br />
+          <br />
+          {/* Uncomment this section if password updating is needed in the future */}
+          {/* <label htmlFor="UpdatedPassword">New Password: </label>
+        <input
+          type="password"
           id="UpdatedPassword"
           name="UpdatedPassword"
         /> */}
-        <br />
-        <br />
-        <button type="submit">Submit</button>
-      </form>
+          <br />
+          <br />
+          <button type="submit">Submit</button>
+        </form>
+      </div>
     </div>
   );
 }

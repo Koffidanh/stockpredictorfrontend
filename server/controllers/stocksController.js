@@ -2,7 +2,7 @@ const db = require("../models");
 
 module.exports = {
   findByName: function (req, res) {
-    console.log("Request params:", req.params);
+    // console.log("Request params:", req.params);
     db.Stocks.find({ ticker: req.params.ticker })
       .then((dbModel) => {
         console.log("DB Model:", dbModel);

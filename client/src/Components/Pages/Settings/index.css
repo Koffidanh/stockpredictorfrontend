@@ -1,0 +1,56 @@
+#settingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f3f4f6;
+}
+
+#logoTitle {
+  display: flex;
+  font-size: 24px;
+  font-weight: bolder;
+  justify-content: center;
+  color: blueviolet;
+}
+
+#editTitle {
+  display: flex;
+  font-size: 24px;
+  font-weight: bolder;
+  justify-content: center;
+  border: 1px solid #ccc;
+  padding: 20px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+#editTitle:hover {
+  background: #f0f0f0; /* Light gray background on hover */
+  border-color: #007bff; /* Change border color to blue */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+  transform: scale(1.05); /* Slightly enlarge the element */
+}
+
+#deleteProfile {
+  display: flex;
+  font-size: 24px;
+  font-weight: bolder;
+  justify-content: center;
+  border: 1px solid #ccc;
+  padding: 20px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+#deleteProfile:hover {
+  background: #ffeded; /* Light red background on hover */
+  border-color: #ff4d4d; /* Change border color to red */
+  box-shadow: 0 6px 8px rgba(255, 0, 0, 0.15); /* Enhance shadow on hover */
+  transform: scale(1.05); /* Slightly enlarge the element */
+}

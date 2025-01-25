@@ -103,6 +103,13 @@ export function AuthProvider({ children }) {
             userName: name,
             profileImage: [],
             uid: result.user.uid,
+            // joinedDate: "",
+            // lastLogin: "",
+            // typeOfSusbcription: "Free",
+            // susbcriptionStatus: "actived",
+            // susbcriptionStartDate: "",
+            // susbcriptionEndDate: "",
+            // susbcriptionRenewalDate: "",
             hasPassword: true,
           };
 
@@ -176,29 +183,39 @@ export function AuthProvider({ children }) {
     }
   };
 
+  // function deleteAccount() {
+  //   console.log("delete function");
+  //   const user = firebase.auth().currentUser;
+  //   console.log("delete function user: ", user.uid);
+  //   // API.removeUser({
+  //   //   uid: user.uid, // User's unique ID
+  //   // });
+  //   user
+  //     .delete()
+  //     .then(() => {
+  //       console.log("User deleted successfully");
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error deleting user:", error);
+  //     });
+  // }
+
   function deleteAccount() {
-    // console.log("delete function");
-    // const auth = getAuth();
-    // const user = auth.currentUser;
-
-    // deleteUser(user).then(() => {
-    //   // User deleted.
-    // }).catch((error) => {
-    //   // An error ocurred
-    //   // ...
-    // });
-
     const user = firebase.auth().currentUser;
 
-    user
+    if (!user) {
+      console.error("No user is currently logged in.");
+      throw new Error("No user is logged in.");
+    }
+
+    return user
       .delete()
       .then(() => {
-        // User deleted.
+        console.log("Firebase account deleted successfully.");
       })
       .catch((error) => {
-        // alert(error)
-        // An error ocurred
-        // ...
+        console.error("Error deleting Firebase account:", error);
+        throw error; // Rethrow error for upstream handling
       });
   }
 
