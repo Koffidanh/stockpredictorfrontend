@@ -250,7 +250,7 @@ const Search = () => {
               ))}
           </select>
         </label>
-        <label>
+        {/* <label>
           Start Date:
           <input
             type="date"
@@ -265,8 +265,8 @@ const Search = () => {
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
-        </label>
-        <label>
+        </label> */}
+        {/* <label>
           Past Recessions:
           <select
             value={pastDrop}
@@ -277,7 +277,7 @@ const Search = () => {
             <option value="20">GREAT_RECESSION</option>
             <option value="30">COVID_RECESSION</option>
           </select>
-        </label>
+        </label> */}
         <button type="submit">Submit</button>
       </form>
     </div>

@@ -117,10 +117,25 @@ module.exports = {
   //     .then((dbModel) => res.json(dbModel))
   //     .catch((err) => res.status(422).json(err));
   // },
+  // deleteUser: function (req, res) {
+  //   console.log("delete me: " + req.body.uid);
+  //   db.User.findOneAndDelete({ uid: req.body.uid }) // Match based on UID
+  //     .then((dbModel) => res.json(dbModel))
+  //     .catch((err) => res.status(422).json(err));
+  // },
+
   deleteUser: function (req, res) {
-    console.log("delete me: " + req.body.uid);
-    db.User.findOneAndDelete({ uid: req.body.uid }) // Match based on UID
-      .then((dbModel) => res.json(dbModel))
-      .catch((err) => res.status(422).json(err));
+    console.log("delete me: " + req.params.uid); // Using req.params.uid
+    db.User.findOneAndDelete({ uid: req.params.uid }) // Match based on UID
+      .then((dbModel) => {
+        if (!dbModel) {
+          return res.status(404).json({ message: "User not found" });
+        }
+        res.json({ message: "User deleted successfully", user: dbModel });
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(422).json(err);
+      });
   },
 };

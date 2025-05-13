@@ -134,12 +134,12 @@ export const GlobalProvider = (props) => {
   // action: get current user
   const getCurrentUser = async (uid) => {
     try {
-      // const res = await axios.get("/api/users/" + uid);
+      const res = await axios.get("/api/users/" + uid);
 
-      const res = await axios.get(
-        "https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/users/" +
-          uid
-      );
+      // const res = await axios.get(
+      //   "https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/users/" +
+      //     uid
+      // );
 
       if (res.data && res.data[0]) {
         dispatch({ type: "SET_USER", payload: res.data });
@@ -161,10 +161,10 @@ export const GlobalProvider = (props) => {
         for (let i = 0; i < res.data[0].listOfStocks.length; i++) {
           const stockTicker = res.data[0].listOfStocks[i];
           try {
-            // const response = await axios.get(`/api/stocks/${stockTicker}`);
-            const response = await axios.get(
-              `https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/stocks/${stockTicker}`
-            );
+            const response = await axios.get(`/api/stocks/${stockTicker}`);
+            // const response = await axios.get(
+            //   `https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/stocks/${stockTicker}`
+            // );
             // console.log("request from Global: ", response.data);
 
             // Assuming the response data is an array of stock objects, push each stock object
