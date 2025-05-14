@@ -265,8 +265,8 @@ const Search = () => {
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
           />
-        </label> */}
-        {/* <label>
+        </label>
+        <label>
           Past Recessions:
           <select
             value={pastDrop}

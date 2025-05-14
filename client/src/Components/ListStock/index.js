@@ -37,7 +37,7 @@ const ListStock = () => {
   };
 
   const getHighLowPrices = (actualPrices) => {
-    const prices = actualPrices?.map((price) =>
+    const prices = actualPrices.map((price) =>
       parseFloat(price.$numberDecimal)
     );
     const high = Math.max(...prices);
@@ -81,18 +81,18 @@ const ListStock = () => {
       <p>Trained on: {objectDatas[0]?.last_trained}</p>
       <hr />
       {objectDatas?.map((stock, index) => {
-        const actualPrices = stock.actual?.map((price) =>
+        const actualPrices = stock.actual.map((price) =>
           parseFloat(price.$numberDecimal)
         );
-        const predictedPrices = stock.predictions?.map((price) =>
+        const predictedPrices = stock.predictions.map((price) =>
           parseFloat(price.$numberDecimal)
         );
 
-        const buyPrices = stock.buy_signals?.map(
+        const buyPrices = stock.buy_signals.map(
           (price) => parseFloat(price.$numberDecimal).toFixed(3) // Format to 3 decimal places
         );
 
-        const sellPrices = stock.sell_signals?.map(
+        const sellPrices = stock.sell_signals.map(
           (price) => parseFloat(price.$numberDecimal).toFixed(3) // Format to 3 decimal places
         );
 
