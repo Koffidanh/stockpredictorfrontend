@@ -1,5 +1,7 @@
 import axios from "axios";
 
+//Local API
+
 // export const API = {
 //   saveUser: (user) => axios.post("api/users", user),
 
@@ -25,6 +27,7 @@ import axios from "axios";
 //   },
 // };
 
+//Online API
 export const API = {
   saveUser: (user) =>
     axios.post(
@@ -58,10 +61,14 @@ export const API = {
   removeStock: (uid) => axios.put("api/users/", uid),
 
   // uploadPhoto: (formData) => {
-  //   return axios.post("https://stockpredictorfrontend-prd-8d9c2d7ae6cf.herokuapp.com//upload", formData, {
-  //     headers: {
-  //       "Content-Type": "multipart/form-data",
-  //     },
-  //   });
+  //   return axios.post(
+  //     "https://stockpredictorfrontend-prd-8d9c2d7ae6cf.herokuapp.com//upload",
+  //     formData,
+  //     {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     }
+  //   );
   // },
 };

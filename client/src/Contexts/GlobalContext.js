@@ -134,8 +134,10 @@ export const GlobalProvider = (props) => {
   // action: get current user
   const getCurrentUser = async (uid) => {
     try {
+      //Local Call
       // const res = await axios.get("/api/users/" + uid);
 
+      //Online Call
       const res = await axios.get(
         "https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/users/" +
           uid
@@ -161,7 +163,10 @@ export const GlobalProvider = (props) => {
         for (let i = 0; i < res.data[0].listOfStocks.length; i++) {
           const stockTicker = res.data[0].listOfStocks[i];
           try {
+            //Local Call
             // const response = await axios.get(`/api/stocks/${stockTicker}`);
+
+            //Online call
             const response = await axios.get(
               `https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/stocks/${stockTicker}`
             );
