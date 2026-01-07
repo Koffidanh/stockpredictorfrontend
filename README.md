@@ -5,7 +5,7 @@ A full-stack machine learning web application that predicts future stock prices 
 
 ## 🚀 Live Demo
 🔗 [Try the App](https://main.d360xa53wldhch.amplifyapp.com/)  
-📂 [Backend Source Code](https://github.com/Koffidanh/stockpredictor/blob/main/app.py)
+📂 [Backend Source Code](https://github.com/Koffidanh/stockpredictor)
 📂 [Frontend Source Code](https://github.com/Koffidanh/stockpredictorfrontend)
 
 ---
