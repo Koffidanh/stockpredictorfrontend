@@ -1,30 +1,98 @@
 #logginContainer {
+  position: relative;
+  isolation: isolate;
+  box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  padding: 28px 16px;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background-color: #f3f4f6;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 50% 0%, #172e54 0%, transparent 62%), #080f1e;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
-
-.logginComponentContainer {
-  border: 1px solid #ccc;
-  padding: 20px 30px 0 20px;
-  background: white;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  width: 20vw;
-  height: 30vh;
+#logginContainer *, #logginContainer *::before, #logginContainer *::after { box-sizing: border-box; }
+#logginContainer .login-glow {
+  position: absolute;
+  z-index: -1;
+  width: min(500px, 90vw);
+  height: 500px;
+  border-radius: 50%;
+  background: rgba(37, 99, 235, .11);
+  filter: blur(90px);
+  pointer-events: none;
 }
-
-input[type="text"],
-input[type="password"],
-input[type="submit"] {
-  /* margin: 10px 0;
-  padding: 10px; */
-  width: 95%;
+#logginContainer .logginComponentContainer {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  height: auto;
+  margin: 0;
+  padding: 36px;
+  background: #111c2e;
+  border: 1px solid #263650;
+  border-radius: 20px;
+  box-shadow: 0 25px 70px rgba(0,0,0,.35);
+  color: #f8fafc;
 }
-
-.newUserText {
-  margin-top: 20px;
+#logginContainer .login-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  color: #f8fafc;
+}
+#logginContainer .login-brand-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg,#3b82f6,#1d4ed8);
+  font-size: 24px;
+  color: white;
+}
+#logginContainer .login-brand-accent { color: #60a5fa; }
+#logginContainer .login-intro { text-align: center; margin: 42px 0 30px; }
+#logginContainer .login-eyebrow { color: #60a5fa; font-size: 11px; font-weight: 700; letter-spacing: 1.4px; margin-bottom: 14px; }
+#logginContainer .login-intro h1 { color: #f8fafc; font-size: 29px; line-height: 1.25; font-weight: 750; margin: 0 0 14px; }
+#logginContainer .login-intro p { color: #94a3b8; font-size: 14px; line-height: 1.7; margin: 0; }
+#logginContainer .login-google-button {
+  width: 100%;
+  min-height: 52px;
+  margin: 0;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  background: #fff;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background .2s, transform .2s, box-shadow .2s;
+}
+#logginContainer .login-google-button:hover:not(:disabled) { background: #f1f5f9; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.2); }
+#logginContainer .login-google-button:disabled { opacity: .65; cursor: wait; }
+#logginContainer .login-google-button:focus-visible { outline: 3px solid #60a5fa; outline-offset: 3px; }
+#logginContainer .login-error { margin: 14px 0 0; padding: 12px; border: 1px solid rgba(239,68,68,.35); border-radius: 8px; background: rgba(239,68,68,.1); color: #fca5a5; text-align: center; font-size: 13px; }
+#logginContainer .login-security { margin: 16px 0 0; text-align: center; color: #94a3b8; font-size: 12px; }
+#logginContainer .login-footer { margin-top: 30px; padding-top: 22px; border-top: 1px solid #263650; text-align: center; color: #64748b; font-size: 11px; }
+#logginContainer .login-footer span { color: #60a5fa; margin-right: 6px; }
+@media (max-width: 480px) {
+  #logginContainer .logginComponentContainer { padding: 28px 22px; border-radius: 16px; }
+  #logginContainer .login-intro { margin: 32px 0 26px; }
+  #logginContainer .login-intro h1 { font-size: 25px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #logginContainer .login-google-button { transition: none; }
 }

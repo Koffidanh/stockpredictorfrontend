@@ -1,64 +1,66 @@
-import React from "react";
-import { useNavigate, Link } from "react-router-dom";
+import React, { useState } from "react";
 import { useAuth } from "../../Contexts/AuthContext/index";
 import "./index.css";
 
 export default function Loggin() {
-  const navigate = useNavigate();
-  const { login, signupWithGoogle } = useAuth();
-
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    const email = event.target.username.value;
-    const password = event.target.password.value;
-
-    try {
-      await login(email, password);
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Error logging in:", error);
-    }
-  };
+  const { signupWithGoogle } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleGoogleLogin = async () => {
+    if (loading) return;
+    setLoading(true);
+    setError("");
     try {
-      console.log("Attempting Google login...");
-      const result = await signupWithGoogle();
-
-      // console.log("Google login result:", result); // Log the result
-      // navigate("/dashboard");
-    } catch (error) {
-      console.error("Error during Google login:", error);
+      // Keep the existing AuthContext sign-in flow and its navigation/profile setup.
+      await signupWithGoogle();
+    } catch (err) {
+      console.error("Error during Google login:", err);
+      if (err?.code === "auth/popup-closed-by-user") {
+        setError("Google sign-in was cancelled.");
+      } else if (err?.code === "auth/popup-blocked") {
+        setError("Allow popups for this website and try again.");
+      } else {
+        setError("Google sign-in failed. Please try again.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div id="logginContainer">
-      <div id="logoTitle">Welcome to StockSeer.</div>
-      <div id="logoTitle">A stock Prediction application.</div>
-      <form onSubmit={handleLogin} className="logginComponentContainer">
-        {/* <div className="usernameClass">
-          <label htmlFor="username">Username: </label>
-          <input type="text" id="username" name="username" />
-          <br />
-          <br />
-          <label htmlFor="password">Password: </label>
-          <input type="password" id="password" name="password" />
-          <br />
-          <br />
-          <input type="submit" value="Submit" />
-        </div> */}
-        <div className="loginWithFirebase">
-          <button type="button" onClick={handleGoogleLogin}>
-            Login / SignUp with Google
-          </button>
+    <main id="logginContainer">
+      <div className="login-glow" aria-hidden="true" />
+      <section className="logginComponentContainer" aria-labelledby="login-title">
+        <div className="login-brand">
+          <div className="login-brand-icon" aria-hidden="true">↗</div>
+          <span>STOCK<span className="login-brand-accent">SEER</span></span>
         </div>
-      </form>
 
-      {/* <div className="newUserText">
-        For new users, create an account!
-        <Link to="/signup"> Sign Up</Link>
-      </div> */}
-    </div>
+        <div className="login-intro">
+          <div className="login-eyebrow">AI-POWERED STOCK PREDICTIONS</div>
+          <h1 id="login-title">Welcome back</h1>
+          <p>Sign in to explore market predictions, monitor stocks, and analyze investment trends.</p>
+        </div>
+
+        <button
+          type="button"
+          className="login-google-button"
+          onClick={handleGoogleLogin}
+          disabled={loading}
+        >
+          <svg width="22" height="22" viewBox="0 0 48 48" aria-hidden="true">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.25 5.48-4.76 7.18l7.73 6C44.42 38.03 46.98 31.88 46.98 24.55z" />
+            <path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.19A23.9 23.9 0 0 0 0 24c0 3.87.93 7.53 2.56 10.78l7.97-6.19z" />
+            <path fill="#34A853" d="M24 48c6.48 0 11.92-2.13 15.89-5.8l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+          </svg>
+          <span>{loading ? "Connecting to Google..." : "Continue with Google"}</span>
+        </button>
+        {error && <p className="login-error" role="alert">{error}</p>}
+        <p className="login-security">Secure sign-in with your Google account</p>
+        <div className="login-footer"><span aria-hidden="true">✦</span> Smarter insights. Better decisions.</div>
+      </section>
+    </main>
   );
 }
