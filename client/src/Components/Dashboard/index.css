@@ -1,19 +1,67 @@
+/* Dashboard-only layout changes. No changes to data or prediction logic. */
 .dashboard {
-  padding: 20px;
+  min-height: 100vh;
+  padding: 0;
+  background: #f3f6fb;
+  color: #172337;
 }
-
-.content {
-  justify-content: space-between;
+.dashboard *, .dashboard *::before, .dashboard *::after { box-sizing: border-box; }
+.dashboard > .content {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 20px;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 24px;
+  align-items: start;
 }
-
-.search-and-graphs {
+.dashboard .search-and-graphs,
+.dashboard .stock-and-graphs {
   display: flex;
-  flex: 2;
-  margin-right: 20px;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
   width: 100%;
+  margin: 0;
 }
-
-.stock-and-graphs {
-  flex: 3;
-  display: flex;
+.dashboard .search-container,
+.dashboard .search-and-graphs > .graphs,
+.dashboard .stock-list,
+.dashboard .stock-and-graphs > .graphs {
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  padding: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 3px 14px rgba(17, 24, 39, .05);
+}
+.dashboard .search-container form { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; }
+.dashboard .search-container label { flex: 1 1 160px; min-width: 0; margin: 0; }
+.dashboard .search-container select,
+.dashboard .search-container input { display: block; width: 100%; min-width: 0; margin-top: 6px; padding: 9px; }
+.dashboard .search-container button { margin: 0; padding: 10px 20px; }
+.dashboard .graphs .actualGraphTittle { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.dashboard .graphs .actualGraphTittle h3 { width: 100%; margin: 0 0 4px; }
+.dashboard .graphs .actualPriceTittle,
+.dashboard .graphs .predictedPriceTittle { margin: 0 !important; border-width: 3px !important; border-radius: 8px; }
+.dashboard .graphs .graph { width: 100%; min-width: 0; height: 240px; margin: 14px 0 24px; padding: 8px; background: #f8fafc; border-radius: 8px; }
+.dashboard .graphs .graph:last-child { margin-bottom: 0; }
+.dashboard .stock-list { max-height: 520px; overflow-y: auto; }
+.dashboard .stock-item { overflow-wrap: anywhere; }
+.dashboard .navbar { width: 100%; flex-wrap: wrap; gap: 12px; }
+.dashboard .navbar-right { min-width: 0; flex-wrap: wrap; gap: 8px; }
+.dashboard .navbar-user { margin: 0 8px; white-space: normal; }
+@media (max-width: 1050px) {
+  .dashboard > .content { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 600px) {
+  .dashboard > .content { padding: 12px; gap: 12px; }
+  .dashboard .search-and-graphs, .dashboard .stock-and-graphs { gap: 12px; }
+  .dashboard .search-container, .dashboard .search-and-graphs > .graphs,
+  .dashboard .stock-list, .dashboard .stock-and-graphs > .graphs { padding: 14px; }
+  .dashboard .graphs .graph { height: 225px; }
+  .dashboard .navbar { padding: 12px; }
+  .dashboard .navbar h1 { font-size: 1.15rem; }
 }

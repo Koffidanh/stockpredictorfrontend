@@ -32,8 +32,8 @@ const globalReducer = (state, action) => {
       const newStocks = action.payload.filter(
         (newStock) =>
           !state.listOfChoosenStocksObjects.some(
-            (existingStock) => existingStock.ticker === newStock.ticker
-          )
+            (existingStock) => existingStock.ticker === newStock.ticker,
+          ),
       );
       return {
         ...state,
@@ -135,20 +135,20 @@ export const GlobalProvider = (props) => {
   const getCurrentUser = async (uid) => {
     try {
       //Local Call
-      // const res = await axios.get("/api/users/" + uid);
+      const res = await axios.get("/api/users/" + uid);
 
       //Online Call
-      const res = await axios.get(
-        "https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/users/" +
-          uid
-      );
+      // const res = await axios.get(
+      //   "https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/users/" +
+      //     uid
+      // );
 
       if (res.data && res.data[0]) {
         dispatch({ type: "SET_USER", payload: res.data });
         // console.log("ListOfStockInList: ", res.data[0].listOfStocks);
       } else {
         console.error(
-          "No data returned from API or the response format is invalid."
+          "No data returned from API or the response format is invalid.",
         );
       }
 
@@ -164,12 +164,12 @@ export const GlobalProvider = (props) => {
           const stockTicker = res.data[0].listOfStocks[i];
           try {
             //Local Call
-            // const response = await axios.get(`/api/stocks/${stockTicker}`);
+            const response = await axios.get(`/api/stocks/${stockTicker}`);
 
             //Online call
-            const response = await axios.get(
-              `https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/stocks/${stockTicker}`
-            );
+            // const response = await axios.get(
+            //   `https://stock-prediction-server-edb82b3b4d9b.herokuapp.com/api/stocks/${stockTicker}`
+            // );
             // console.log("request from Global: ", response.data);
 
             // Assuming the response data is an array of stock objects, push each stock object
@@ -190,7 +190,7 @@ export const GlobalProvider = (props) => {
         });
       } else {
         console.error(
-          "No data returned from API or the response format is invalid."
+          "No data returned from API or the response format is invalid.",
         );
       }
     } catch (err) {
